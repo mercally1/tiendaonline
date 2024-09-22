@@ -1,7 +1,32 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using tienda.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<OnlineShopDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connection")));
+
+builder.Services.AddAuthorization(options => 
+{
+    options.AddPolicy("RequiredAdminOrStaff",
+    Policy => Policy.RequireRole("Administrador", "Staff")
+    );
+});
+
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan= TimeSpan.FromMinutes(60);
+        options.LoginPath = "/Accoun/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+    });
+
+// configurar servicio a utilizar
 
 var app = builder.Build();
 
@@ -17,6 +42,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
