@@ -5,9 +5,8 @@ namespace tienda.Controllers;
 
 public class DashboardController : BaseController
 {
-    public DashboardController(OnlineShopDbContext context) : base(context)
-    {
-    }
+    public DashboardController(OnlineShopDbContext context) 
+        : base(context){ }
 
     public IActionResult Index()
     {

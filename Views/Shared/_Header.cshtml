@@ -29,7 +29,7 @@
                     @if(User.Identity !=null && User.Identity.IsAuthenticated)
                     {
                         string nombreUsuario = User.Identity.Name ?? "Desconocido";
-                        string idUsuario = User.FindFirst(ClaimTypes.NameIdentifier);
+                        string idUsuario = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -40,7 +40,7 @@
                                         asp-action="Details"
                                         asp-route-id="@idUsuario">Perfil</a></li>
 
-                                @if(User.FindFirstValue(claimType.Role)=="Administrador")
+                                @if(User.FindFirstValue(ClaimTypes.Role)=="Administrador")
                                 {
                                 <li><a class="dropdown-item" asp-controller="Dashboard"
                                         asp-action="Index">Dashboard</a></li>

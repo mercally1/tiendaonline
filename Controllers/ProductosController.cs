@@ -6,14 +6,10 @@ using tienda.Models;
 
 namespace tienda.Controllers
 {
-    public class ProductosController : Controller
+    public class ProductosController : BaseController
     {
-        private readonly OnlineShopDbContext _context;
-
         public ProductosController(OnlineShopDbContext context)
-        {
-            _context = context;
-        }
+            : base(context){}
 
         // GET: Productos
         public async Task<IActionResult> Index()

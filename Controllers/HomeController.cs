@@ -1,14 +1,16 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using tienda.Data;
 using tienda.Models;
 
 namespace tienda.Controllers;
 
-public class HomeController : Controller
+public class HomeController : BaseController
 {
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, OnlineShopDbContext context)
+        : base(context)
     {
         _logger = logger;
     }
