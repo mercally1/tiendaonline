@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using tienda.Data;
@@ -36,11 +32,18 @@ namespace tienda.Controllers
 
             var pedido = await _context.pedidos
                 .Include(p => p.usuarios)
+                .Include(p => p.DetallePedidos)
+                .ThenInclude(dp => dp.Producto)
                 .FirstOrDefaultAsync(m => m.PedidoId == id);
             if (pedido == null)
             {
                 return NotFound();
             }
+
+            pedido.direccion = 
+                await _context.direccions.FirstOrDefaultAsync(
+                    d=> d.DireccionId == pedido.DireccionSeleccionada
+                    ) ?? new Direccion();
 
             return View(pedido);
         }

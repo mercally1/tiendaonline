@@ -55,8 +55,25 @@ namespace tienda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UsuarioId,Nombre,Telefono,NombreUsuario,Contrasenia,Correo,Direccion,Cuidad,Departamento,CodigoPostal,RolId")] Usuario usuario)
         {
-            if (ModelState.IsValid)
+            var rol = await _context.roles
+                .Where(d => d.RolId == usuario.RolId)
+                .FirstOrDefaultAsync();
+
+            if (rol != null)
             {
+                usuario.Rol = rol;
+
+                usuario.Direcciones = new List<Direccion>()
+                {
+                    new Direccion
+                    {
+                        Address= usuario.Direccion,
+                        Cuidad = usuario.Cuidad,
+                        Departamento = usuario.Departamento,
+                        CodigoPostal = usuario.CodigoPostal
+                    }
+                };
+
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -94,25 +111,60 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var rol = await _context.roles
+                .Where(d => d.RolId == usuario.RolId)
+                .FirstOrDefaultAsync();
+
+            if (rol != null)
             {
-                try
+                usuario.Rol = rol;
+
+                var existingUser = await _context.usuarios
+                    .Include(u => u.Direcciones)
+                    .FirstOrDefaultAsync(u => u.UsuarioId == id);
+
+                if (existingUser != null) 
                 {
-                    _context.Update(usuario);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UsuarioExists(usuario.UsuarioId))
+                    if (existingUser.Direcciones.Count > 0)
                     {
-                        return NotFound();
+                        var direccion = existingUser.Direcciones.First();
+                        direccion.Address = usuario.Direccion;
+                        direccion.Cuidad = usuario.Cuidad;
+                        direccion.Departamento = usuario.Departamento;
+                        direccion.CodigoPostal = usuario.CodigoPostal;
                     }
                     else
                     {
-                        throw;
+                        existingUser.Direcciones = new List<Direccion>();
+                        {
+                            new Direccion
+                            {
+                                Address = usuario.Direccion,
+                                Cuidad = usuario.Cuidad,
+                                Departamento = usuario.Departamento,
+                                CodigoPostal = usuario.CodigoPostal
+                            };
+                        }
                     }
+
+                    try
+                    {
+                        _context.Update(existingUser);
+                        await _context.SaveChanges();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!UsuarioExists(usuario.UsuarioId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
             }
             ViewData["RolId"] = new SelectList(_context.roles, "RolId", "Nombre", usuario.RolId);
             return View(usuario);

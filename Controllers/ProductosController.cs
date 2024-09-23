@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using tienda.Data;
@@ -48,7 +44,7 @@ namespace tienda.Controllers
         // GET: Productos/Create
         public IActionResult Create()
         {
-            ViewData["ProductoId"] = new SelectList(_context.categorias, "CategoriaId", "Descripcion");
+            ViewData["CategoriaId"] = new SelectList(_context.categorias, "CategoriaId", "Descripcion");
             return View();
         }
 
