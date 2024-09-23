@@ -30,19 +30,19 @@ namespace tienda.Data
             modelBuilder.Entity<Usuario>()
             .HasMany(u => u.Pedidos)
             .WithOne(p => p.usuarios)
-            .HasForeignKey(u => u.UsuarioId)
+            .HasForeignKey(p => p.UsuarioId)
             .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Producto>()
             .HasMany(u => u.DetallePedidos)
             .WithOne(p => p.Producto)
-            .HasForeignKey(u => u.ProductoId)
+            .HasForeignKey(p => p.ProductoId)
             .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Pedido>()
             .HasMany(u => u.DetallePedidos)
             .WithOne(p => p.pedidos)
-            .HasForeignKey(u => u.PedidoId)
+            .HasForeignKey(p => p.PedidoId)
             .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Pedido>()
@@ -51,9 +51,8 @@ namespace tienda.Data
             modelBuilder.Entity<Categoria>()
             .HasMany(u => u.Productos)
             .WithOne(p => p.Categoria)
-            .HasForeignKey(u => u.ProductoId)
+            .HasForeignKey(p => p.ProductoId)
             .OnDelete(DeleteBehavior.Restrict);
-
         }
     }
 }

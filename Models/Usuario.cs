@@ -23,6 +23,7 @@ public class Usuario
     public string NombreUsuario { get; set; } = null!;
 
     [Required, StringLength(255)]
+    [Display(Name ="Contraseña")]
     public string Contrasenia { get; set; } = null!;
 
     [Required, StringLength(255)]
@@ -48,6 +49,5 @@ public class Usuario
 
     public ICollection<Pedido> Pedidos { get; set; }
 
-    [InverseProperty("Usuario")]
     public virtual ICollection<Direccion> Direcciones { get; set; } = null!;
 }

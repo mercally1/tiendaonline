@@ -9,7 +9,7 @@ public class Pedido
     public int PedidoId { get; set; }
 
     [Required]
-    public string UsuarioId { get; set;} = null!;
+    public int UsuarioId { get; set;} 
 
     [ForeignKey("UsuarioId")]
     public virtual Usuario usuarios { get; set; } = null!;
