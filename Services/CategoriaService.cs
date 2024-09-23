@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using tienda.Data;
 using tienda.Models;
 
@@ -14,6 +15,6 @@ public class CategoriaService : ICategoriaService
 
     public async Task<List<Categoria>> GetCategorias()
     {
-        return await _context.Categorias.ToListAsync();
+        return await _context.categorias.ToListAsync();
     }
 }

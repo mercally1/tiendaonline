@@ -12,7 +12,7 @@ namespace tienda.Data
         }
 
         public DbSet<Categoria> categorias { get; set; } =null!;
-        public object Categorias { get; internal set; }
+
         public DbSet<Detalle_Pedido> detalle_Pedidos { get; set; } =null!;
 
         public DbSet<Direccion> direccions { get; set; }=null!;
