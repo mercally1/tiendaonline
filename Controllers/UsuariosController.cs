@@ -6,10 +6,14 @@ using tienda.Models;
 
 namespace tienda.Controllers
 {
-    public class UsuariosController : BaseController
+    public class UsuariosController : Controller
     {
+        private readonly OnlineShopDbContext _context;
+
         public UsuariosController(OnlineShopDbContext context)
-            :base(context){ }
+        {
+            _context = context;
+        }
 
         // GET: Usuarios
         public async Task<IActionResult> Index()
@@ -142,22 +146,23 @@ namespace tienda.Controllers
                             };
                         }
                     }
-                    // // try
-                    // // {
-                    // //     _context.Update(existingUser);
-                    // //     await _context.SaveChanges();
-                    // // }
-                    // catch (DbUpdateConcurrencyException)
-                    // {
-                    //     if (!UsuarioExists(usuario.UsuarioId))
-                    //     {
-                    //         return NotFound();
-                    //     }
-                    //     else
-                    //     {
-                    //         throw;
-                    //     }
-                    // }
+
+                    try
+                    {
+                        _context.Update(existingUser);
+                        await _context.SavedChanges();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!UsuarioExists(usuario.UsuarioId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
                     return RedirectToAction(nameof(Index));
                 }
             }
