@@ -6,14 +6,10 @@ using tienda.Models;
 
 namespace tienda.Controllers
 {
-    public class DireccionesController : Controller
+    public class DireccionesController : BaseController
     {
-        private readonly OnlineShopDbContext _context;
-
         public DireccionesController(OnlineShopDbContext context)
-        {
-            _context = context;
-        }
+            : base(context) { }
 
         // GET: Direcciones
         public async Task<IActionResult> Index()

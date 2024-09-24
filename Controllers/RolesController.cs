@@ -5,13 +5,11 @@ using tienda.Models;
 
 namespace tienda.Controllers
 {
-    public class RolesController : Controller
+    public class RolesController : BaseController
     {
-        private readonly OnlineShopDbContext _context;
-
         public RolesController(OnlineShopDbContext context)
+            : base(context)
         {
-            _context = context;
         }
 
         // GET: Roles

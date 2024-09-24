@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using tienda.Data;
@@ -10,14 +6,10 @@ using tienda.Models;
 
 namespace tienda.Controllers
 {
-    public class ProductosController : Controller
+    public class ProductosController : BaseController
     {
-        private readonly OnlineShopDbContext _context;
-
         public ProductosController(OnlineShopDbContext context)
-        {
-            _context = context;
-        }
+            : base(context){}
 
         // GET: Productos
         public async Task<IActionResult> Index()
@@ -48,7 +40,7 @@ namespace tienda.Controllers
         // GET: Productos/Create
         public IActionResult Create()
         {
-            ViewData["ProductoId"] = new SelectList(_context.categorias, "CategoriaId", "Descripcion");
+            ViewData["CategoriaId"] = new SelectList(_context.categorias, "CategoriaId", "Descripcion");
             return View();
         }
 
