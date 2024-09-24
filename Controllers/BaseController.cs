@@ -41,6 +41,99 @@ public class BaseController : Controller
         return Count;
     }
 
+    public async Task<CarritoViewModel> AgregarProductoAlCarrito(int productoId, int cantidad)
+    {
+        var producto  = await _context.productos.FindAsync(productoId);
+
+        if (producto != null)
+        {
+            var carritoViewModel = await GetCarritoViewModelAsync();
+
+            var carritoItem = carritoViewModel.Item.FirstOrDefault(
+                item => item.ProductoId == productoId
+            );
+
+            if (carritoItem != null)
+                carritoItem.Cantidad += cantidad;
+            else
+                carritoViewModel.Item.Add(
+                    new CarritoItemViewModel
+                    {
+                        ProductoId = producto.ProductoId,
+                        Nombre = producto.Nombre,
+                        Precio = producto.Precio,
+                        Cantidad = cantidad
+                    }
+                );
+
+            carritoViewModel.Total = carritoViewModel.Item.Sum(
+                item => item.Cantidad * item.Precio
+            );
+
+            await UpdateCarritoViewModelAsync(carritoViewModel);
+
+            return carritoViewModel;
+        }
+
+        return new CarritoViewModel();
+    }
+
+    public async Task UpdateCarritoViewModelAsync(CarritoViewModel carritoViewModel)
+    {
+        var productoIds = carritoViewModel.Item.Select(
+                item => new ProductoIdAndCAntidad
+                {
+                    ProductoId = item.ProductoId,
+                    Cantidad = item.Cantidad 
+                }
+        )
+        .ToList();
+
+        var carritoJson =await Task.Run(() => JsonConvert.SerializeObject(productoIds));
+        Response.Cookies.Append(
+            "carrito", 
+            carritoJson,
+            new CookieOptions{ Expires = DateTimeOffset.Now.AddDays(7)}
+        );
+    }
+
+    public async Task<CarritoViewModel> GetCarritoViewModelAsync()
+    {
+        var carritoJson = Request.Cookies["carrito"];
+
+        if(string.IsNullOrEmpty(carritoJson))
+            
+            return new CarritoViewModel();
+
+        var ProductoIdAndCAntidad = JsonConvert.DeserializeObject<List<ProductoIdAndCAntidad>>(carritoJson);
+
+        var carritoViewModel = new CarritoViewModel();
+
+        if(ProductoIdAndCAntidad != null){
+
+            foreach(var item in ProductoIdAndCAntidad)
+            {
+                var producto = await _context.productos.FindAsync(item.ProductoId);
+
+                if(producto != null)
+                {
+                    carritoViewModel.Item.Add(
+                        new CarritoItemViewModel
+                        {
+                            ProductoId = producto.ProductoId,
+                            Nombre = producto.Nombre,
+                            Precio = producto.Precio,
+                            Cantidad = item.Cantidad
+                        }
+                    );
+                }
+            }
+        }
+        carritoViewModel.Total = carritoViewModel.Item.Sum(item => item.Subtotal);
+
+        return new CarritoViewModel();
+    }
+
     protected IActionResult HandleError(Exception e)
     {
         return View(

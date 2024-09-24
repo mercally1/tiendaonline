@@ -150,7 +150,7 @@ namespace tienda.Controllers
                     try
                     {
                         _context.Update(existingUser);
-                        await _context.SavedChanges();
+                        await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
                     {

@@ -29,7 +29,7 @@
                     @if(User.Identity !=null && User.Identity.IsAuthenticated)
                     {
                         string nombreUsuario = User.Identity.Name ?? "Desconocido";
-                        string idUsuario = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                        string idUsuario = User.FindFirstValue(ClaimTypes.NameIdentifier); 
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
