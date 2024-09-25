@@ -58,7 +58,7 @@ public class HomeController : BaseController
 
             ViewBag.Categorias = await _categoriaService.GetCategorias();
 
-            if(Request.Headers["X-Request-With"] == "XMLHttpRequest")
+            if(Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
                 return PartialView("_ProductosPartial", model);
             }

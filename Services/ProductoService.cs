@@ -53,7 +53,7 @@ public class ProductoService : IProductoService
 
         int totalProductos = await query.CountAsync();
 
-        int totalPaginas = (int)Math.Ceiling((double)totalProductos) / productosPorPagina;
+        int totalPaginas = (int)Math.Ceiling((double)totalProductos / productosPorPagina);
 
         if (pagina < 1)
             pagina = 1;
