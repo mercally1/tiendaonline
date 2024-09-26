@@ -80,13 +80,6 @@ namespace tienda.Controllers
     
         public ActionResult Login()
         {
-            if(User.Identity!=null && User.Identity.IsAuthenticated)
-            {
-                if (User.IsInRole("Administrator") || User.IsInRole("staff"))
-                    return RedirectToAction("Index", "Home");
-                else
-                    return RedirectToAction("Index", "Home");
-            }
             return View();
         }
 
