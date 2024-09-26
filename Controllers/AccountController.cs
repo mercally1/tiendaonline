@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using tienda.Data;
 using tienda.Models;
 
@@ -31,7 +32,7 @@ namespace tienda.Controllers
         {
             try
             {
-                if (usuario != null)
+                if (usuario != null && ModelState.IsValid)
                 {
                     if (await _context.usuarios.AnyAsync(u => u.NombreUsuario == usuario.NombreUsuario))
                     {
@@ -106,8 +107,8 @@ namespace tienda.Controllers
                     
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
                     if (rol != null) {
-                        if (rol.Nombre == "Administrado" || rol.Nombre == "Staff")
-                            return RedirectToAction("Index", "Dashboard ");
+                        if (rol.Nombre == "Administrador" || rol.Nombre == "Staff")
+                            return RedirectToAction("Index", "Dashboard");
                         else
                             return RedirectToAction("Index", "Home");
                     }
