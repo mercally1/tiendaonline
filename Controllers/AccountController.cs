@@ -105,11 +105,12 @@ namespace tienda.Controllers
                     }
                     
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-
-                    if (User.IsInRole("Administrator") || User.IsInRole("staff"))
-                        return RedirectToAction("Index", "Dashboard ");
-                    else
-                        return RedirectToAction("Index", "Home");
+                    if (rol != null) {
+                        if (rol.Nombre == "Administrado" || rol.Nombre == "Staff")
+                            return RedirectToAction("Index", "Dashboard ");
+                        else
+                            return RedirectToAction("Index", "Home");
+                    }
                 }
                
                 ModelState.AddModelError("", "Credenciales Invalidas.");
