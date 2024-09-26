@@ -6,12 +6,12 @@
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">Hakuna`s Shop</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSuppotedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggle-icon"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="nabar-collapse collapse d-sm-inline-flex justifi-content-between" id="navbarSupportedContent">
-                <form class="forc-inline mx-auto" asp-controller="Home" asp-action="Productos" method="get">
+            <div class="nabar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarSupportedContent">
+                <form class="form-inline mx-auto" asp-controller="Home" asp-action="Productos" method="get">
                     <div class="input-group">
-                        <input class="form-control" type="search" placeholder="Busqueeda producto" aria-label="Buscar" name="busqueda"/>
+                        <input class="form-control" type="search" placeholder="Busqueda producto" aria-label="Buscar" name="busqueda"/>
                         <button class="btn btn-outline-secondary" type="submit">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
@@ -21,7 +21,7 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Carrito" asp-action="Index">
                             <i class="fa-solid fa-cart-shopping"></i>
-                            <span class="badge badge-pill badge-danger bg-primry">
+                            <span class="badge badge-pill badge-danger bg-primary">
                                 @ViewBag.NumeroProductos
                             </span>
                         </a>
