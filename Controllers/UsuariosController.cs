@@ -147,6 +147,8 @@ namespace tienda.Controllers
                         }
                     }
 
+                    existingUser.RolId = usuario.RolId;
+
                     try
                     {
                         _context.Update(existingUser);
