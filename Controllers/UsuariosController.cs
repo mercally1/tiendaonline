@@ -117,7 +117,7 @@ namespace tienda.Controllers
 
             if (rol != null)
             {
-                usuario.Rol = rol;
+            
 
                 var existingUser = await _context.usuarios
                     .Include(u => u.Direcciones)
@@ -147,7 +147,13 @@ namespace tienda.Controllers
                         }
                     }
 
+                    existingUser.Rol = rol;
                     existingUser.RolId = usuario.RolId;
+                    existingUser.Nombre = usuario.Nombre;
+                    existingUser.Telefono = usuario.Telefono;
+                    existingUser.NombreUsuario =usuario.NombreUsuario;
+                    existingUser.Contrasenia = usuario.Contrasenia;
+                    existingUser.Correo = usuario.Correo;
 
                     try
                     {
