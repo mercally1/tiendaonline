@@ -2,9 +2,9 @@ namespace tienda.Models.ViewModels;
 
 public class ProcederConCompraViewModel
 {
-    public CarritoItemViewModel Carrito { get; set; } = null!;
+    public CarritoViewModel Carrito { get; set; } = null!;
 
-    public List<Direccion> direcciones { get; set; } = null!;
+    public List<Direccion> Direcciones { get; set; } = null!;
 
-    public int DireccionSeleccionada { get; set; }
+    public int DireccionIdSeleccionada { get; set; }
 }
