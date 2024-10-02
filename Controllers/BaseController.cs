@@ -31,7 +31,7 @@ public class BaseController : Controller
         string? carritoJson= Request.Cookies["carrito"];
         if (!string.IsNullOrEmpty(carritoJson))
         {
-            var carrito = JsonConvert.DeserializeObject<List<ProductoIdAndCAntidad>>(carritoJson);
+            var carrito = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
             if (carrito != null)
             {
                 Count = carrito.Count;
@@ -81,7 +81,7 @@ public class BaseController : Controller
     public async Task UpdateCarritoViewModelAsync(CarritoViewModel carritoViewModel)
     {
         var productoIds = carritoViewModel.Item.Select(
-                item => new ProductoIdAndCAntidad
+                item => new ProductoIdAndCantidad
                 {
                     ProductoId = item.ProductoId,
                     Cantidad = item.Cantidad 
@@ -105,7 +105,7 @@ public class BaseController : Controller
             
             return new CarritoViewModel();
 
-        var ProductoIdAndCAntidad = JsonConvert.DeserializeObject<List<ProductoIdAndCAntidad>>(carritoJson);
+        var ProductoIdAndCAntidad = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
 
         var carritoViewModel = new CarritoViewModel();
 
