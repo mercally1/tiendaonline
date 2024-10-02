@@ -43,7 +43,7 @@ public class BaseController : Controller
 
     public async Task<CarritoViewModel> AgregarProductoAlCarrito(int productoId, int cantidad)
     {
-        var producto  = await _context.productos.FindAsync(productoId);
+        var producto  = await _context.Productos.FindAsync(productoId);
 
         if (producto != null)
         {
@@ -113,7 +113,7 @@ public class BaseController : Controller
 
             foreach(var item in ProductoIdAndCAntidad)
             {
-                var producto = await _context.productos.FindAsync(item.ProductoId);
+                var producto = await _context.Productos.FindAsync(item.ProductoId);
 
                 if(producto != null)
                 {

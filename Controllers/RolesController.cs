@@ -15,7 +15,7 @@ namespace tienda.Controllers
         // GET: Roles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.roles.ToListAsync());
+            return View(await _context.Roles.ToListAsync());
         }
 
         // GET: Roles/Details/5
@@ -26,7 +26,7 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var rol = await _context.roles
+            var rol = await _context.Roles
                 .FirstOrDefaultAsync(m => m.RolId == id);
             if (rol == null)
             {
@@ -66,7 +66,7 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var rol = await _context.roles.FindAsync(id);
+            var rol = await _context.Roles.FindAsync(id);
             if (rol == null)
             {
                 return NotFound();
@@ -117,7 +117,7 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var rol = await _context.roles
+            var rol = await _context.Roles
                 .FirstOrDefaultAsync(m => m.RolId == id);
             if (rol == null)
             {
@@ -132,10 +132,10 @@ namespace tienda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var rol = await _context.roles.FindAsync(id);
+            var rol = await _context.Roles.FindAsync(id);
             if (rol != null)
             {
-                _context.roles.Remove(rol);
+                _context.Roles.Remove(rol);
             }
 
             await _context.SaveChangesAsync();
@@ -144,7 +144,7 @@ namespace tienda.Controllers
 
         private bool RolExists(int id)
         {
-            return _context.roles.Any(e => e.RolId == id);
+            return _context.Roles.Any(e => e.RolId == id);
         }
     }
 }

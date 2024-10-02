@@ -14,7 +14,7 @@ namespace tienda.Controllers
         // GET: Detalle_Pedidos
         public async Task<IActionResult> Index()
         {
-            var onlineShopDbContext = _context.detalle_Pedidos.Include(d => d.Producto).Include(d => d.pedidos);
+            var onlineShopDbContext = _context.DetallePedidos.Include(d => d.Producto).Include(d => d.Pedidos);
             return View(await onlineShopDbContext.ToListAsync());
         }
 
@@ -26,9 +26,9 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var detalle_Pedido = await _context.detalle_Pedidos
+            var detalle_Pedido = await _context.DetallePedidos
                 .Include(d => d.Producto)
-                .Include(d => d.pedidos)
+                .Include(d => d.Pedidos)
                 .FirstOrDefaultAsync(m => m.Detalle_PedidoId == id);
             if (detalle_Pedido == null)
             {
@@ -41,8 +41,8 @@ namespace tienda.Controllers
         // GET: Detalle_Pedidos/Create
         public IActionResult Create()
         {
-            ViewData["ProductoId"] = new SelectList(_context.productos, "ProductoId", "Codigo");
-            ViewData["PedidoId"] = new SelectList(_context.pedidos, "PedidoId", "Estado");
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "ProductoId", "Codigo");
+            ViewData["PedidoId"] = new SelectList(_context.Pedidos, "PedidoId", "Estado");
             return View();
         }
 
@@ -59,8 +59,8 @@ namespace tienda.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductoId"] = new SelectList(_context.productos, "ProductoId", "Codigo", detalle_Pedido.ProductoId);
-            ViewData["PedidoId"] = new SelectList(_context.pedidos, "PedidoId", "Estado", detalle_Pedido.PedidoId);
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "ProductoId", "Codigo", detalle_Pedido.ProductoId);
+            ViewData["PedidoId"] = new SelectList(_context.Pedidos, "PedidoId", "Estado", detalle_Pedido.PedidoId);
             return View(detalle_Pedido);
         }
 
@@ -72,13 +72,13 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var detalle_Pedido = await _context.detalle_Pedidos.FindAsync(id);
+            var detalle_Pedido = await _context.DetallePedidos.FindAsync(id);
             if (detalle_Pedido == null)
             {
                 return NotFound();
             }
-            ViewData["ProductoId"] = new SelectList(_context.productos, "ProductoId", "Codigo", detalle_Pedido.ProductoId);
-            ViewData["PedidoId"] = new SelectList(_context.pedidos, "PedidoId", "Estado", detalle_Pedido.PedidoId);
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "ProductoId", "Codigo", detalle_Pedido.ProductoId);
+            ViewData["PedidoId"] = new SelectList(_context.Pedidos, "PedidoId", "Estado", detalle_Pedido.PedidoId);
             return View(detalle_Pedido);
         }
 
@@ -114,8 +114,8 @@ namespace tienda.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductoId"] = new SelectList(_context.productos, "ProductoId", "Codigo", detalle_Pedido.ProductoId);
-            ViewData["PedidoId"] = new SelectList(_context.pedidos, "PedidoId", "Estado", detalle_Pedido.PedidoId);
+            ViewData["ProductoId"] = new SelectList(_context.Productos, "ProductoId", "Codigo", detalle_Pedido.ProductoId);
+            ViewData["PedidoId"] = new SelectList(_context.Pedidos, "PedidoId", "Estado", detalle_Pedido.PedidoId);
             return View(detalle_Pedido);
         }
 
@@ -127,9 +127,9 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var detalle_Pedido = await _context.detalle_Pedidos
+            var detalle_Pedido = await _context.DetallePedidos
                 .Include(d => d.Producto)
-                .Include(d => d.pedidos)
+                .Include(d => d.Pedidos)
                 .FirstOrDefaultAsync(m => m.Detalle_PedidoId == id);
             if (detalle_Pedido == null)
             {
@@ -144,10 +144,10 @@ namespace tienda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var detalle_Pedido = await _context.detalle_Pedidos.FindAsync(id);
+            var detalle_Pedido = await _context.DetallePedidos.FindAsync(id);
             if (detalle_Pedido != null)
             {
-                _context.detalle_Pedidos.Remove(detalle_Pedido);
+                _context.DetallePedidos.Remove(detalle_Pedido);
             }
 
             await _context.SaveChangesAsync();
@@ -156,7 +156,7 @@ namespace tienda.Controllers
 
         private bool Detalle_PedidoExists(int id)
         {
-            return _context.detalle_Pedidos.Any(e => e.Detalle_PedidoId == id);
+            return _context.DetallePedidos.Any(e => e.Detalle_PedidoId == id);
         }
     }
 }

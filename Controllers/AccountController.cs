@@ -34,13 +34,13 @@ namespace tienda.Controllers
             {
                 if (usuario != null && ModelState.IsValid)
                 {
-                    if (await _context.usuarios.AnyAsync(u => u.NombreUsuario == usuario.NombreUsuario))
+                    if (await _context.Usuarios.AnyAsync(u => u.NombreUsuario == usuario.NombreUsuario))
                     {
                         ModelState.AddModelError(nameof(usuario.Nombre), "El nombre de usuario ya esta en uso");
                         return View(usuario);
                     }
 
-                    var clienteRol = await _context.roles.FirstOrDefaultAsync(r => r.Nombre=="Cliente");
+                    var clienteRol = await _context.Roles.FirstOrDefaultAsync(r => r.Nombre=="Cliente");
 
                     if (clienteRol != null)
                     {
@@ -58,7 +58,7 @@ namespace tienda.Controllers
                         }
                     };
 
-                    _context.usuarios.Add(usuario);
+                    _context.Usuarios.Add(usuario);
                     await _context.SaveChangesAsync();
 
                     var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -90,7 +90,7 @@ namespace tienda.Controllers
         {
             try
             {
-                var user = await _context.usuarios.FirstOrDefaultAsync(u=>u.NombreUsuario==username && u.Contrasenia==password); 
+                var user = await _context.Usuarios.FirstOrDefaultAsync(u=>u.NombreUsuario==username && u.Contrasenia==password); 
                 
                 if (user != null)
                 {
@@ -98,7 +98,7 @@ namespace tienda.Controllers
                     identity.AddClaim(new Claim(ClaimTypes.Name, username));
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UsuarioId.ToString()));
 
-                    var rol = await _context.roles.FirstOrDefaultAsync(r=>r.RolId == user.RolId);
+                    var rol = await _context.Roles.FirstOrDefaultAsync(r=>r.RolId == user.RolId);
                     
                     if (rol!=null)
                     {

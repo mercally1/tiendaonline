@@ -18,7 +18,7 @@ public class ProductoService : IProductoService
 
     public Producto GetProducto(int id)
     {
-        var producto = _context.productos
+        var producto = _context.Productos
         .Include(p => p.Categoria)
         .FirstOrDefault(p => p.ProductoId == id);
         
@@ -30,7 +30,7 @@ public class ProductoService : IProductoService
 
     public async Task<List<Producto>> GetProductoDestacados()
     {
-        IQueryable<Producto> productosQuery = _context.productos;
+        IQueryable<Producto> productosQuery = _context.Productos;
         productosQuery = productosQuery.Where(p => p.Activo);
 
         List<Producto> productoDestacados = await productosQuery
@@ -42,7 +42,7 @@ public class ProductoService : IProductoService
 
     public async Task<ProductosPaginadosViewModel> GetProductoPaginados(int? categoriaId, string? busqueda, int pagina, int productosPorPagina)
     {
-        IQueryable<Producto> query = _context.productos;
+        IQueryable<Producto> query = _context.Productos;
         query = query.Where(p => p.Activo);
 
         if (categoriaId.HasValue)
@@ -70,7 +70,7 @@ public class ProductoService : IProductoService
             .ToListAsync();
         }
 
-        bool mostarMensajeSinResultado =totalProductos == 0;
+        bool mostarMensajeSinResultado = totalProductos == 0;
 
         var model = new ProductosPaginadosViewModel{
             productos = productos,

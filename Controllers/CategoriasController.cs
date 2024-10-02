@@ -14,7 +14,7 @@ namespace tienda.Controllers
         // GET: Categorias
         public async Task<IActionResult> Index()
         {
-            return View(await _context.categorias.ToListAsync());
+            return View(await _context.Categorias.ToListAsync());
         }
 
         // GET: Categorias/Details/5
@@ -25,7 +25,7 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.categorias
+            var categoria = await _context.Categorias
                 .FirstOrDefaultAsync(m => m.CategoriaId == id);
             if (categoria == null)
             {
@@ -65,7 +65,7 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.categorias.FindAsync(id);
+            var categoria = await _context.Categorias.FindAsync(id);
             if (categoria == null)
             {
                 return NotFound();
@@ -116,7 +116,7 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.categorias
+            var categoria = await _context.Categorias
                 .FirstOrDefaultAsync(m => m.CategoriaId == id);
             if (categoria == null)
             {
@@ -131,10 +131,10 @@ namespace tienda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categoria = await _context.categorias.FindAsync(id);
+            var categoria = await _context.Categorias.FindAsync(id);
             if (categoria != null)
             {
-                _context.categorias.Remove(categoria);
+                _context.Categorias.Remove(categoria);
             }
 
             await _context.SaveChangesAsync();
@@ -143,7 +143,7 @@ namespace tienda.Controllers
 
         private bool CategoriaExists(int id)
         {
-            return _context.categorias.Any(e => e.CategoriaId == id);
+            return _context.Categorias.Any(e => e.CategoriaId == id);
         }
     }
 }

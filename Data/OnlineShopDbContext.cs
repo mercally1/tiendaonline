@@ -11,25 +11,27 @@ namespace tienda.Data
 
         }
 
-        public DbSet<Categoria> categorias { get; set; } =null!;
+        public DbSet<Categoria> Categorias { get; set; } = null!;
 
-        public DbSet<Detalle_Pedido> detalle_Pedidos { get; set; } =null!;
+        public DbSet<Detalle_Pedido> DetallePedidos { get; set; } = null!;
 
-        public DbSet<Direccion> direccions { get; set; }=null!;
+        public DbSet<Direccion> Direcciones { get; set; } = null!;
 
-        public DbSet<Pedido> pedidos{ get; set; }=null!;
+        public DbSet<Pedido> Pedidos{ get; set; } = null!;
 
-        public DbSet<Producto> productos { get; set; }=null!;
+        public DbSet<Producto> Productos { get; set; } = null!;
 
-        public DbSet<Rol> roles { get; set; }=null!;
+        public DbSet<Rol> Roles { get; set; } = null!;
 
-        public DbSet<Usuario> usuarios{ get; set; } = null!;
+        public DbSet<Usuario> Usuarios{ get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Usuario>()
             .HasMany(u => u.Pedidos)
-            .WithOne(p => p.usuarios)
+            .WithOne(p => p.Usuarios)
             .HasForeignKey(p => p.UsuarioId)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -41,17 +43,17 @@ namespace tienda.Data
 
             modelBuilder.Entity<Pedido>()
             .HasMany(u => u.DetallePedidos)
-            .WithOne(p => p.pedidos)
+            .WithOne(dp => dp.Pedidos)
             .HasForeignKey(p => p.PedidoId)
             .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Pedido>()
-            .Ignore(p => p.direccion);
+            .Ignore(p => p.Direccion);
 
             modelBuilder.Entity<Categoria>()
             .HasMany(u => u.Productos)
             .WithOne(p => p.Categoria)
-            .HasForeignKey(p => p.ProductoId)
+            .HasForeignKey(p => p.CategoriaId)
             .OnDelete(DeleteBehavior.Restrict);
         }
     }

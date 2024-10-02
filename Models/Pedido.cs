@@ -12,10 +12,10 @@ public class Pedido
     public int UsuarioId { get; set;} 
 
     [ForeignKey("UsuarioId")]
-    public virtual Usuario usuarios { get; set; } = null!;
+    public virtual Usuario Usuarios { get; set; } = null!;
 
     [Required]
-    public DateTime fecha { get; set; }
+    public DateTime Fecha { get; set; }
     
     [Required]
     public string Estado { get; set; } = null!;
@@ -24,7 +24,7 @@ public class Pedido
     public int DireccionSeleccionada { get; set;} 
 
     [ForeignKey("DireccionId")]
-    public virtual Direccion direccion { get; set; } = null!;
+    public virtual Direccion Direccion { get; set; } = null!;
 
     public decimal Total { get; set; }
 

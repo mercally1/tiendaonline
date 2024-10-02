@@ -14,7 +14,7 @@ namespace tienda.Controllers
         // GET: Direcciones
         public async Task<IActionResult> Index()
         {
-            var onlineShopDbContext = _context.direccions.Include(d => d.Usuarios);
+            var onlineShopDbContext = _context.Direcciones.Include(d => d.Usuarios);
             return View(await onlineShopDbContext.ToListAsync());
         }
 
@@ -26,7 +26,7 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var direccion = await _context.direccions
+            var direccion = await _context.Direcciones
                 .Include(d => d.Usuarios)
                 .FirstOrDefaultAsync(m => m.DireccionId == id);
             if (direccion == null)
@@ -40,7 +40,7 @@ namespace tienda.Controllers
         // GET: Direcciones/Create
         public IActionResult Create()
         {
-            ViewData["UsuarioId"] = new SelectList(_context.usuarios, "UsuarioId", "CodigoPostal");
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "CodigoPostal");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace tienda.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_context.usuarios, "UsuarioId", "CodigoPostal", direccion.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "CodigoPostal", direccion.UsuarioId);
             return View(direccion);
         }
 
@@ -69,12 +69,12 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var direccion = await _context.direccions.FindAsync(id);
+            var direccion = await _context.Direcciones.FindAsync(id);
             if (direccion == null)
             {
                 return NotFound();
             }
-            ViewData["UsuarioId"] = new SelectList(_context.usuarios, "UsuarioId", "CodigoPostal", direccion.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "CodigoPostal", direccion.UsuarioId);
             return View(direccion);
         }
 
@@ -110,7 +110,7 @@ namespace tienda.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_context.usuarios, "UsuarioId", "CodigoPostal", direccion.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "CodigoPostal", direccion.UsuarioId);
             return View(direccion);
         }
 
@@ -122,7 +122,7 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var direccion = await _context.direccions
+            var direccion = await _context.Direcciones
                 .Include(d => d.Usuarios)
                 .FirstOrDefaultAsync(m => m.DireccionId == id);
             if (direccion == null)
@@ -138,10 +138,10 @@ namespace tienda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var direccion = await _context.direccions.FindAsync(id);
+            var direccion = await _context.Direcciones.FindAsync(id);
             if (direccion != null)
             {
-                _context.direccions.Remove(direccion);
+                _context.Direcciones.Remove(direccion);
             }
 
             await _context.SaveChangesAsync();
@@ -150,7 +150,7 @@ namespace tienda.Controllers
 
         private bool DireccionExists(int id)
         {
-            return _context.direccions.Any(e => e.DireccionId == id);
+            return _context.Direcciones.Any(e => e.DireccionId == id);
         }
     }
 }

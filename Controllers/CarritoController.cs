@@ -19,7 +19,7 @@ namespace tienda.Controllers
             foreach (var item in carritoViewModel.Item) 
             {
             
-                var producto = await _context.productos.FindAsync(item.ProductoId);
+                var producto = await _context.Productos.FindAsync(item.ProductoId);
                 if (producto != null)
                 {
                     item.Producto = producto;
@@ -39,7 +39,7 @@ namespace tienda.Controllers
             var UsuarioId=User.Identity?.IsAuthenticated==true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
 
             var direcciones = User.Identity?.IsAuthenticated == true ?
-                _context.direccions.Where(d => d.UsuarioId == UsuarioId).ToList() : new List<Direccion>();
+                _context.Direcciones.Where(d => d.UsuarioId == UsuarioId).ToList() : new List<Direccion>();
 
             var procederConCompraViewModel = new Models.ViewModels.ProcederConCompraViewModel
             {
@@ -59,7 +59,7 @@ namespace tienda.Controllers
             if (carritoItem != null)
             {
                 carritoItem.Cantidad = cantidad;
-                var producto = await _context.productos.FindAsync(id);
+                var producto = await _context.Productos.FindAsync(id);
                 if (producto != null && producto.Activo && producto.Stock > 0)
                     carritoItem.Cantidad =Math.Min(cantidad,producto.Stock);
 
