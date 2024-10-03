@@ -1,26 +1,24 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tienda.Data;
 using tienda.Models;
 
 namespace tienda.Controllers
 {
-    [Authorize(Policy = "RequiredAdminOrStaff")]
-    public class RolesController : BaseController
+    public class BannersController : BaseController
     {
-        public RolesController(OnlineShopDbContext context)
-            : base(context)
+        public BannersController(OnlineShopDbContext context) : base(context) 
         {
+
         }
 
-        // GET: Roles
+        // GET: Banners
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Roles.ToListAsync());
+            return View(await _context.Banners.ToListAsync());
         }
 
-        // GET: Roles/Details/5
+        // GET: Banners/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -28,39 +26,39 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var rol = await _context.Roles
-                .FirstOrDefaultAsync(m => m.RolId == id);
-            if (rol == null)
+            var banner = await _context.Banners
+                .FirstOrDefaultAsync(m => m.BannerId == id);
+            if (banner == null)
             {
                 return NotFound();
             }
 
-            return View(rol);
+            return View(banner);
         }
 
-        // GET: Roles/Create
+        // GET: Banners/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Roles/Create
+        // POST: Banners/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RolId,Nombre")] Rol rol)
+        public async Task<IActionResult> Create([Bind("BannerId,ImageUrl")] Banner banner)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(rol);
+                _context.Add(banner);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(rol);
+            return View(banner);
         }
 
-        // GET: Roles/Edit/5
+        // GET: Banners/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -68,22 +66,22 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var rol = await _context.Roles.FindAsync(id);
-            if (rol == null)
+            var banner = await _context.Banners.FindAsync(id);
+            if (banner == null)
             {
                 return NotFound();
             }
-            return View(rol);
+            return View(banner);
         }
 
-        // POST: Roles/Edit/5
+        // POST: Banners/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RolId,Nombre")] Rol rol)
+        public async Task<IActionResult> Edit(int id, [Bind("BannerId,ImageUrl")] Banner banner)
         {
-            if (id != rol.RolId)
+            if (id != banner.BannerId)
             {
                 return NotFound();
             }
@@ -92,12 +90,12 @@ namespace tienda.Controllers
             {
                 try
                 {
-                    _context.Update(rol);
+                    _context.Update(banner);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RolExists(rol.RolId))
+                    if (!BannerExists(banner.BannerId))
                     {
                         return NotFound();
                     }
@@ -108,10 +106,10 @@ namespace tienda.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(rol);
+            return View(banner);
         }
 
-        // GET: Roles/Delete/5
+        // GET: Banners/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -119,34 +117,34 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var rol = await _context.Roles
-                .FirstOrDefaultAsync(m => m.RolId == id);
-            if (rol == null)
+            var banner = await _context.Banners
+                .FirstOrDefaultAsync(m => m.BannerId == id);
+            if (banner == null)
             {
                 return NotFound();
             }
 
-            return View(rol);
+            return View(banner);
         }
 
-        // POST: Roles/Delete/5
+        // POST: Banners/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var rol = await _context.Roles.FindAsync(id);
-            if (rol != null)
+            var banner = await _context.Banners.FindAsync(id);
+            if (banner != null)
             {
-                _context.Roles.Remove(rol);
+                _context.Banners.Remove(banner);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RolExists(int id)
+        private bool BannerExists(int id)
         {
-            return _context.Roles.Any(e => e.RolId == id);
+            return _context.Banners.Any(e => e.BannerId == id);
         }
     }
 }
