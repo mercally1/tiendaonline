@@ -25,6 +25,8 @@ namespace tienda.Data
 
         public DbSet<Usuario> Usuarios{ get; set; } = null!;
 
+        public DbSet<Banner> Banners{ get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
