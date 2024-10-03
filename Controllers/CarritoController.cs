@@ -25,16 +25,15 @@ namespace tienda.Controllers
                     item.Producto = producto;
 
                     if (!producto.Activo)
-                        item.Cantidad = 0;
+                        carritoViewModel.Item.Remove(item);
                     else
                         item.Cantidad = Math.Min(item.Cantidad, producto.Stock);
-
-                    if (item.Cantidad == 0)
-                        item.Cantidad = 1;
                 }
                 else
                 item.Cantidad = 0;
             }
+
+            carritoViewModel.Total = carritoViewModel.Item.Sum(item => item.Subtotal);
 
             var UsuarioId=User.Identity?.IsAuthenticated==true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
 
