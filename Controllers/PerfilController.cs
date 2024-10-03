@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tienda.Data;
 using tienda.Models;
 
 namespace tienda.Controllers
 {
+    [Authorize(Policy = "RequiredAdminOrStaff")]
     public class PerfilController : BaseController
     {
         public PerfilController (OnlineShopDbContext context) : base (context)

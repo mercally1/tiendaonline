@@ -6,6 +6,7 @@ using tienda.Models;
 
 namespace tienda.Controllers
 {
+    [Authorize(Policy = "RequiredAdminOrStaff")]
     public class PedidosController : BaseController
     {
         public PedidosController(OnlineShopDbContext context)
