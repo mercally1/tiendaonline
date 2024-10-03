@@ -1,4 +1,4 @@
-﻿@Model Usuario
+﻿@model Usuario
 
 @{
     ViewData["Title"] = "Perfil de usuario";
@@ -32,7 +32,7 @@
             <tr>
                 <th>Direccion</th>
                 <th>ciudad</th>
-                <th>Estado</th>
+                <th>Departamento</th>
                 <th>Codigo Postal</th>
             </tr>
         </thead>
@@ -41,8 +41,8 @@
             {
                 <tr>
                     <th>@direccion.Address</th>
-                    <th>@direccion.Ciudad</th>
-                    <th>@direccion.Estado</th>
+                    <th>@direccion.Cuidad</th>
+                    <th>@direccion.Departamento</th>
                     <th>@direccion.CodigoPostal</th>
                 </tr>
             }

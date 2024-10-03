@@ -15,7 +15,7 @@ namespace tienda.Controllers
             if (id == null)
             return NotFound();
 
-            var usuario =await _context.Usuarios
+            var usuario = await _context.Usuarios
             .Include(u => u.Direcciones)
             .FirstOrDefaultAsync(u => u.UsuarioId == id);
 
