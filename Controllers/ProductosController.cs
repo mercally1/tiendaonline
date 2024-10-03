@@ -13,9 +13,8 @@ namespace tienda.Controllers
 
         // GET: Productos
         public async Task<IActionResult> Index()
-        {
-            var onlineShopDbContext = _context.Productos.Include(p => p.Categoria);
-            return View(await onlineShopDbContext.ToListAsync());
+        { 
+            return View(await _context.Productos.ToListAsync());
         }
 
         // GET: Productos/Details/5
@@ -27,7 +26,6 @@ namespace tienda.Controllers
             }
 
             var producto = await _context.Productos
-                .Include(p => p.Categoria)
                 .FirstOrDefaultAsync(m => m.ProductoId == id);
             if (producto == null)
             {
