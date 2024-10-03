@@ -1,4 +1,4 @@
-namespace tienda.Controllers;
+namespace tienda.Models;
 
 public class ProductoIdAndCantidad
 {
