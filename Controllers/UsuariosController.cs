@@ -18,7 +18,7 @@ namespace tienda.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-            var onlineShopDbContext = _context.usuarios.Include(u => u.Rol);
+            var onlineShopDbContext = _context.Usuarios.Include(u => u.Rol);
             return View(await onlineShopDbContext.ToListAsync());
         }
 
@@ -30,7 +30,7 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var usuario = await _context.usuarios
+            var usuario = await _context.Usuarios
                 .Include(u => u.Rol)
                 .FirstOrDefaultAsync(m => m.UsuarioId == id);
             if (usuario == null)
@@ -44,7 +44,7 @@ namespace tienda.Controllers
         // GET: Usuarios/Create
         public IActionResult Create()
         {
-            ViewData["RolId"] = new SelectList(_context.roles, "RolId", "Nombre");
+            ViewData["RolId"] = new SelectList(_context.Roles, "RolId", "Nombre");
             return View();
         }
 
@@ -55,7 +55,7 @@ namespace tienda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UsuarioId,Nombre,Telefono,NombreUsuario,Contrasenia,Correo,Direccion,Cuidad,Departamento,CodigoPostal,RolId")] Usuario usuario)
         {
-            var rol = await _context.roles
+            var rol = await _context.Roles
                 .Where(d => d.RolId == usuario.RolId)
                 .FirstOrDefaultAsync();
 
@@ -78,7 +78,7 @@ namespace tienda.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RolId"] = new SelectList(_context.roles, "RolId", "Nombre", usuario.RolId);
+            ViewData["RolId"] = new SelectList(_context.Roles, "RolId", "Nombre", usuario.RolId);
             return View(usuario);
         }
 
@@ -90,12 +90,12 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var usuario = await _context.usuarios.FindAsync(id);
+            var usuario = await _context.Usuarios.FindAsync(id);
             if (usuario == null)
             {
                 return NotFound();
             }
-            ViewData["RolId"] = new SelectList(_context.roles, "RolId", "Nombre", usuario.RolId);
+            ViewData["RolId"] = new SelectList(_context.Roles, "RolId", "Nombre", usuario.RolId);
             return View(usuario);
         }
 
@@ -111,7 +111,7 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var rol = await _context.roles
+            var rol = await _context.Roles
                 .Where(d => d.RolId == usuario.RolId)
                 .FirstOrDefaultAsync();
 
@@ -119,7 +119,7 @@ namespace tienda.Controllers
             {
             
 
-                var existingUser = await _context.usuarios
+                var existingUser = await _context.Usuarios
                     .Include(u => u.Direcciones)
                     .FirstOrDefaultAsync(u => u.UsuarioId == id);
 
@@ -174,7 +174,7 @@ namespace tienda.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-            ViewData["RolId"] = new SelectList(_context.roles, "RolId", "Nombre", usuario.RolId);
+            ViewData["RolId"] = new SelectList(_context.Roles, "RolId", "Nombre", usuario.RolId);
             return View(usuario);
         }
 
@@ -186,7 +186,7 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var usuario = await _context.usuarios
+            var usuario = await _context.Usuarios
                 .Include(u => u.Rol)
                 .FirstOrDefaultAsync(m => m.UsuarioId == id);
             if (usuario == null)
@@ -202,10 +202,10 @@ namespace tienda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var usuario = await _context.usuarios.FindAsync(id);
+            var usuario = await _context.Usuarios.FindAsync(id);
             if (usuario != null)
             {
-                _context.usuarios.Remove(usuario);
+                _context.Usuarios.Remove(usuario);
             }
 
             await _context.SaveChangesAsync();
@@ -214,7 +214,7 @@ namespace tienda.Controllers
 
         private bool UsuarioExists(int id)
         {
-            return _context.usuarios.Any(e => e.UsuarioId == id);
+            return _context.Usuarios.Any(e => e.UsuarioId == id);
         }
     }
 }

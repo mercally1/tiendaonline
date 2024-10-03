@@ -14,7 +14,7 @@ namespace tienda.Controllers
         // GET: Pedidoes
         public async Task<IActionResult> Index()
         {
-            var onlineShopDbContext = _context.pedidos.Include(p => p.usuarios);
+            var onlineShopDbContext = _context.Pedidos.Include(p => p.Usuarios);
             return View(await onlineShopDbContext.ToListAsync());
         }
 
@@ -26,8 +26,8 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var pedido = await _context.pedidos
-                .Include(p => p.usuarios)
+            var pedido = await _context.Pedidos
+                .Include(p => p.Usuarios)
                 .Include(p => p.DetallePedidos)
                 .ThenInclude(dp => dp.Producto)
                 .FirstOrDefaultAsync(m => m.PedidoId == id);
@@ -36,8 +36,8 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            pedido.direccion = 
-                await _context.direccions.FirstOrDefaultAsync(
+            pedido.Direccion = 
+                await _context.Direcciones.FirstOrDefaultAsync(
                     d=> d.DireccionId == pedido.DireccionSeleccionada
                     ) ?? new Direccion();
 
@@ -47,7 +47,7 @@ namespace tienda.Controllers
         // GET: Pedidoes/Create
         public IActionResult Create()
         {
-            ViewData["UsuarioId"] = new SelectList(_context.usuarios, "UsuarioId", "CodigoPostal");
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "CodigoPostal");
             return View();
         }
 
@@ -56,7 +56,7 @@ namespace tienda.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PedidoId,UsuarioId,fecha,Estado,DireccionSeleccionada,Total")] Pedido pedido)
+        public async Task<IActionResult> Create([Bind("PedidoId,UsuarioId,Fecha,Estado,DireccionSeleccionada,Total")] Pedido pedido)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace tienda.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_context.usuarios, "UsuarioId", "CodigoPostal", pedido.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "CodigoPostal", pedido.UsuarioId);
             return View(pedido);
         }
 
@@ -76,12 +76,12 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var pedido = await _context.pedidos.FindAsync(id);
+            var pedido = await _context.Pedidos.FindAsync(id);
             if (pedido == null)
             {
                 return NotFound();
             }
-            ViewData["UsuarioId"] = new SelectList(_context.usuarios, "UsuarioId", "CodigoPostal", pedido.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "CodigoPostal", pedido.UsuarioId);
             return View(pedido);
         }
 
@@ -90,7 +90,7 @@ namespace tienda.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PedidoId,UsuarioId,fecha,Estado,DireccionSeleccionada,Total")] Pedido pedido)
+        public async Task<IActionResult> Edit(int id, [Bind("PedidoId,UsuarioId,Fecha,Estado,DireccionSeleccionada,Total")] Pedido pedido)
         {
             if (id != pedido.PedidoId)
             {
@@ -117,7 +117,7 @@ namespace tienda.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_context.usuarios, "UsuarioId", "CodigoPostal", pedido.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "CodigoPostal", pedido.UsuarioId);
             return View(pedido);
         }
 
@@ -129,8 +129,8 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            var pedido = await _context.pedidos
-                .Include(p => p.usuarios)
+            var pedido = await _context.Pedidos
+                .Include(p => p.Usuarios)
                 .FirstOrDefaultAsync(m => m.PedidoId == id);
             if (pedido == null)
             {
@@ -145,10 +145,10 @@ namespace tienda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pedido = await _context.pedidos.FindAsync(id);
+            var pedido = await _context.Pedidos.FindAsync(id);
             if (pedido != null)
             {
-                _context.pedidos.Remove(pedido);
+                _context.Pedidos.Remove(pedido);
             }
 
             await _context.SaveChangesAsync();
@@ -157,7 +157,7 @@ namespace tienda.Controllers
 
         private bool PedidoExists(int id)
         {
-            return _context.pedidos.Any(e => e.PedidoId == id);
+            return _context.Pedidos.Any(e => e.PedidoId == id);
         }
     }
 }

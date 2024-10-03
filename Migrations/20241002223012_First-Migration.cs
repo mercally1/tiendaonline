@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace tienda.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "categorias",
+                name: "Categorias",
                 columns: table => new
                 {
                     CategoriaId = table.Column<int>(type: "int", nullable: false)
@@ -22,11 +22,11 @@ namespace tienda.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_categorias", x => x.CategoriaId);
+                    table.PrimaryKey("PK_Categorias", x => x.CategoriaId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "roles",
+                name: "Roles",
                 columns: table => new
                 {
                     RolId = table.Column<int>(type: "int", nullable: false)
@@ -35,14 +35,15 @@ namespace tienda.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_roles", x => x.RolId);
+                    table.PrimaryKey("PK_Roles", x => x.RolId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "productos",
+                name: "Productos",
                 columns: table => new
                 {
-                    ProductoId = table.Column<int>(type: "int", nullable: false),
+                    ProductoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Codigo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Modelo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -56,17 +57,17 @@ namespace tienda.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_productos", x => x.ProductoId);
+                    table.PrimaryKey("PK_Productos", x => x.ProductoId);
                     table.ForeignKey(
-                        name: "FK_productos_categorias_ProductoId",
-                        column: x => x.ProductoId,
-                        principalTable: "categorias",
+                        name: "FK_Productos_Categorias_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "Categorias",
                         principalColumn: "CategoriaId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "usuarios",
+                name: "Usuarios",
                 columns: table => new
                 {
                     UsuarioId = table.Column<int>(type: "int", nullable: false)
@@ -84,17 +85,17 @@ namespace tienda.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_usuarios", x => x.UsuarioId);
+                    table.PrimaryKey("PK_Usuarios", x => x.UsuarioId);
                     table.ForeignKey(
-                        name: "FK_usuarios_roles_RolId",
+                        name: "FK_Usuarios_Roles_RolId",
                         column: x => x.RolId,
-                        principalTable: "roles",
+                        principalTable: "Roles",
                         principalColumn: "RolId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "direccions",
+                name: "Direcciones",
                 columns: table => new
                 {
                     DireccionId = table.Column<int>(type: "int", nullable: false)
@@ -107,23 +108,23 @@ namespace tienda.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_direccions", x => x.DireccionId);
+                    table.PrimaryKey("PK_Direcciones", x => x.DireccionId);
                     table.ForeignKey(
-                        name: "FK_direccions_usuarios_UsuarioId",
+                        name: "FK_Direcciones_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
-                        principalTable: "usuarios",
+                        principalTable: "Usuarios",
                         principalColumn: "UsuarioId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "pedidos",
+                name: "Pedidos",
                 columns: table => new
                 {
                     PedidoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DireccionSeleccionada = table.Column<int>(type: "int", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -131,17 +132,17 @@ namespace tienda.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_pedidos", x => x.PedidoId);
+                    table.PrimaryKey("PK_Pedidos", x => x.PedidoId);
                     table.ForeignKey(
-                        name: "FK_pedidos_usuarios_UsuarioId",
+                        name: "FK_Pedidos_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
-                        principalTable: "usuarios",
+                        principalTable: "Usuarios",
                         principalColumn: "UsuarioId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "detalle_Pedidos",
+                name: "DetallePedidos",
                 columns: table => new
                 {
                     Detalle_PedidoId = table.Column<int>(type: "int", nullable: false)
@@ -153,44 +154,49 @@ namespace tienda.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_detalle_Pedidos", x => x.Detalle_PedidoId);
+                    table.PrimaryKey("PK_DetallePedidos", x => x.Detalle_PedidoId);
                     table.ForeignKey(
-                        name: "FK_detalle_Pedidos_pedidos_PedidoId",
+                        name: "FK_DetallePedidos_Pedidos_PedidoId",
                         column: x => x.PedidoId,
-                        principalTable: "pedidos",
+                        principalTable: "Pedidos",
                         principalColumn: "PedidoId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_detalle_Pedidos_productos_ProductoId",
+                        name: "FK_DetallePedidos_Productos_ProductoId",
                         column: x => x.ProductoId,
-                        principalTable: "productos",
+                        principalTable: "Productos",
                         principalColumn: "ProductoId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_detalle_Pedidos_PedidoId",
-                table: "detalle_Pedidos",
+                name: "IX_DetallePedidos_PedidoId",
+                table: "DetallePedidos",
                 column: "PedidoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_detalle_Pedidos_ProductoId",
-                table: "detalle_Pedidos",
+                name: "IX_DetallePedidos_ProductoId",
+                table: "DetallePedidos",
                 column: "ProductoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_direccions_UsuarioId",
-                table: "direccions",
+                name: "IX_Direcciones_UsuarioId",
+                table: "Direcciones",
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_pedidos_UsuarioId",
-                table: "pedidos",
+                name: "IX_Pedidos_UsuarioId",
+                table: "Pedidos",
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_usuarios_RolId",
-                table: "usuarios",
+                name: "IX_Productos_CategoriaId",
+                table: "Productos",
+                column: "CategoriaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_RolId",
+                table: "Usuarios",
                 column: "RolId");
         }
 
@@ -198,25 +204,25 @@ namespace tienda.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "detalle_Pedidos");
+                name: "DetallePedidos");
 
             migrationBuilder.DropTable(
-                name: "direccions");
+                name: "Direcciones");
 
             migrationBuilder.DropTable(
-                name: "pedidos");
+                name: "Pedidos");
 
             migrationBuilder.DropTable(
-                name: "productos");
+                name: "Productos");
 
             migrationBuilder.DropTable(
-                name: "usuarios");
+                name: "Usuarios");
 
             migrationBuilder.DropTable(
-                name: "categorias");
+                name: "Categorias");
 
             migrationBuilder.DropTable(
-                name: "roles");
+                name: "Roles");
         }
     }
 }

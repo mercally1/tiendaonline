@@ -15,6 +15,6 @@ public class CategoriaService : ICategoriaService
 
     public async Task<List<Categoria>> GetCategorias()
     {
-        return await _context.categorias.ToListAsync();
+        return await _context.Categorias.ToListAsync();
     }
 }

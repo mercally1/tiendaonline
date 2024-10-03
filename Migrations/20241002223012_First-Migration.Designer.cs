@@ -12,8 +12,8 @@ using tienda.Data;
 namespace tienda.Migrations
 {
     [DbContext(typeof(OnlineShopDbContext))]
-    [Migration("20240923035513_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241002223012_First-Migration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,7 +45,7 @@ namespace tienda.Migrations
 
                     b.HasKey("CategoriaId");
 
-                    b.ToTable("categorias");
+                    b.ToTable("Categorias");
                 });
 
             modelBuilder.Entity("tienda.Models.Detalle_Pedido", b =>
@@ -74,7 +74,7 @@ namespace tienda.Migrations
 
                     b.HasIndex("ProductoId");
 
-                    b.ToTable("detalle_Pedidos");
+                    b.ToTable("DetallePedidos");
                 });
 
             modelBuilder.Entity("tienda.Models.Direccion", b =>
@@ -112,7 +112,7 @@ namespace tienda.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("direccions");
+                    b.ToTable("Direcciones");
                 });
 
             modelBuilder.Entity("tienda.Models.Pedido", b =>
@@ -133,26 +133,29 @@ namespace tienda.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("fecha")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("PedidoId");
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("pedidos");
+                    b.ToTable("Pedidos");
                 });
 
             modelBuilder.Entity("tienda.Models.Producto", b =>
                 {
                     b.Property<int>("ProductoId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"));
 
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
@@ -199,7 +202,9 @@ namespace tienda.Migrations
 
                     b.HasKey("ProductoId");
 
-                    b.ToTable("productos");
+                    b.HasIndex("CategoriaId");
+
+                    b.ToTable("Productos");
                 });
 
             modelBuilder.Entity("tienda.Models.Rol", b =>
@@ -217,7 +222,7 @@ namespace tienda.Migrations
 
                     b.HasKey("RolId");
 
-                    b.ToTable("roles");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("tienda.Models.Usuario", b =>
@@ -280,12 +285,12 @@ namespace tienda.Migrations
 
                     b.HasIndex("RolId");
 
-                    b.ToTable("usuarios");
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("tienda.Models.Detalle_Pedido", b =>
                 {
-                    b.HasOne("tienda.Models.Pedido", "pedidos")
+                    b.HasOne("tienda.Models.Pedido", "Pedidos")
                         .WithMany("DetallePedidos")
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -297,9 +302,9 @@ namespace tienda.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Producto");
+                    b.Navigation("Pedidos");
 
-                    b.Navigation("pedidos");
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("tienda.Models.Direccion", b =>
@@ -315,20 +320,20 @@ namespace tienda.Migrations
 
             modelBuilder.Entity("tienda.Models.Pedido", b =>
                 {
-                    b.HasOne("tienda.Models.Usuario", "usuarios")
+                    b.HasOne("tienda.Models.Usuario", "Usuarios")
                         .WithMany("Pedidos")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("usuarios");
+                    b.Navigation("Usuarios");
                 });
 
             modelBuilder.Entity("tienda.Models.Producto", b =>
                 {
                     b.HasOne("tienda.Models.Categoria", "Categoria")
                         .WithMany("Productos")
-                        .HasForeignKey("ProductoId")
+                        .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

@@ -12,7 +12,7 @@ public class Detalle_Pedido
     public int PedidoId { get; set; }
 
     [ForeignKey("PedidoId")]
-    public virtual Pedido pedidos { get; set; } = null!;
+    public virtual Pedido Pedidos { get; set; } = null!;
 
     [Required]
     public int ProductoId { get; set; }
