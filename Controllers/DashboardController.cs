@@ -7,7 +7,6 @@ namespace tienda.Controllers;
 [Authorize(Policy = "RequiredAdminOrStaff")]
 public class DashboardController : BaseController
 {
-    
     public DashboardController(OnlineShopDbContext context) 
         : base(context){ }
 
