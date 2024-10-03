@@ -22,22 +22,28 @@ namespace tienda.Controllers
         {
             var carritoViewModel = await GetCarritoViewModelAsync();
 
+            var itemsEliminar = new List<CarritoItemViewModel>();
+
             foreach (var item in carritoViewModel.Item) 
             {
-            
                 var producto = await _context.Productos.FindAsync(item.ProductoId);
                 if (producto != null)
                 {
                     item.Producto = producto;
 
                     if (!producto.Activo)
-                        carritoViewModel.Item.Remove(item);
+                        itemsEliminar.Add(item);
                     else
                         item.Cantidad = Math.Min(item.Cantidad, producto.Stock);
                 }
                 else
-                item.Cantidad = 0;
+                    itemsEliminar.Add(item);
             }
+
+            foreach(var item in itemsEliminar)
+                carritoViewModel.Item.Remove(item);
+
+            await UpdateCarritoViewModelAsync(carritoViewModel);
 
             carritoViewModel.Total = carritoViewModel.Item.Sum(item => item.Subtotal);
 
