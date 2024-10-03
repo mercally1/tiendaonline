@@ -1,6 +1,6 @@
 namespace tienda.Controllers;
 
-public class ProductoIdAndCAntidad
+public class ProductoIdAndCantidad
 {
     public int ProductoId { get; set; }
 
