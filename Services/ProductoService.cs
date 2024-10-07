@@ -1,6 +1,4 @@
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using tienda.Data;
 using tienda.Models;
 using tienda.Models.ViewModels;
@@ -73,7 +71,7 @@ public class ProductoService : IProductoService
         bool mostarMensajeSinResultado = totalProductos == 0;
 
         var model = new ProductosPaginadosViewModel{
-            productos = productos,
+            Productos = productos,
             PaginaActual = pagina, 
             TotalPaginas = totalPaginas,
             CategoriaIdSeleccionada = categoriaId,
@@ -83,5 +81,4 @@ public class ProductoService : IProductoService
         
         return model;
     }
-
 }
