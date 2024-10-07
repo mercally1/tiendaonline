@@ -40,8 +40,8 @@
                     <div class="card-body mt-auto">
                         @if (producto.Stock < 1)
                         {
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fas fa-exclamation-circle"></i>Agotado
+                            <div class="alert alert-danger text-center" role="alert">
+                                <i class="fas fa-exclamation-circle"></i> Agotado
                             </div>
                         } else 
                         {
@@ -61,8 +61,8 @@
 </div>
 
 @{
-    string? controllerName = Context.GetRouteValue("controller") as string;
-    string? actionName = Context.GetRouteValue("action") as string;
+    string? controllerName = Context.GetRouteValue("controllerName") as string;
+    string? actionName = Context.GetRouteValue("actionName") as string;
 }
 
 <script>
