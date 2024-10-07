@@ -20,7 +20,7 @@ public class Producto
     [Required, StringLength(50)]
     public string Descripcion { get; set; } = null!;
 
-    [Required, StringLength(50)]
+    [Required]
     public decimal Precio { get; set; }
 
     [Required, StringLength(255)]
@@ -30,7 +30,7 @@ public class Producto
     public int CategoriaId { get; set; }
 
     [ForeignKey("CategoriaId")]
-    public virtual Categoria Categoria{ get; set; } =null!;
+    public virtual Categoria? Categoria{ get; set; } =null!;
 
     [Required]
     public int Stock { get; set; }
@@ -41,6 +41,6 @@ public class Producto
     [Required]
     public bool Activo { get; set; }
 
-    [Required]
-    public ICollection<Detalle_Pedido> DetallePedidos { get; set; } = null!;
+    //[Required]
+    public ICollection<Detalle_Pedido>? DetallePedidos { get; set; } = null!;
 }
