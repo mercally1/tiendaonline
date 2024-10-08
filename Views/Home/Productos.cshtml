@@ -6,10 +6,9 @@
 
 <div class="container">
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb" id="breadcrumb-container">
-
-        </ol>
+        <ol class="breadcrumb" id="breadcrumb-container"> </ol>
     </nav>
+
     <div class="row mb-3">
         <nav class="col-md-3">
             <ul cite="list-group">
@@ -42,8 +41,8 @@
 </div>
 
 @{
-    string? controllerName = Context.GetRouteValue("controllerName") as string;
-    string? actionName = Context.GetRouteValue("actionName") as string;
+    string? controllerName = Context.GetRouteValue("controller") as string;
+    string? actionName = Context.GetRouteValue("action") as string;
 }
 
 <script>
@@ -53,36 +52,35 @@
 
 @section Scripts{
     <script>
-        $(document).ready(function(){
-            $('#todasCheckbox').on('chenge', function(){
-                var idChecked= $(this).prop('checked');
-                $('.categoriaCheckbox').prop('checked', ischecked);
-                filtrarProductos();
-            });
+    $(document).ready(function(){
+        $('#todasCheckbox').on('change', function(){
+            var idChecked= $(this).prop('checked');
+            $('.categoriaCheckbox').prop('checked', ischecked);
+            filtrarProductos();
+        });
 
-            $('.categoriaCheckbox').on('change', function(){
-                var allChecked = $('.categoriaCheckbox:Checked').length===$('.categoriaCheckbox').length;
-                $('#todasCheckbox').prop('checked', allChecked);
-                filtrarProductos();
-            });
+        $('.categoriaCheckbox').on('change', function(){
+            var allChecked = $('.categoriaCheckbox:Checked').length===$('.categoriaCheckbox').length;
+            $('#todasCheckbox').prop('checked', allChecked);
+            filtrarProductos();
+        });
 
-            function filtrarProductos(){
-                var selectedCategorias = [];
-                $('.categoriaCheckbox:checked').each(function(){
-                    var categoriaId= $(this).data('categoria');
-                    selectedCategorias.push(categoriaId);
-                });
-                if(selectedCategorias.length ===0)
-                {
-                    $('.productoItem').show();
-                } else {
-                    $('.productoItem').hide();
-                    selectedCategoria.forEach(function(categoriaId){
-                        $('.productoItem[data-categoria="'+categoriaId+'"]').show();
+        function filtrarProductos() {
+            var selectedCategorias = [];
+            $('.categoriaCheckbox:checked').each(function () {
+                var categoriaId = $(this).data('categoria');
+                selectedCategorias.push(categoriaId);
+            });
+            if (selectedCategorias.length === 0) {
+                $('.productoItem').show();
+            } else {
+                $('.productoItem').hide();
+                selectedCategoria.forEach(function (categoriaId) {
+                    $('.productoItem[data-categoria="' + categoriaId + '"]').show();
                 });
             }
 
-            var url= '@Url.Action("Productos", "Home" )';
+            var url = '@Url.Action("Productos", "Home")';
             var data = {
                 pagina: @Model.PaginaActual,
                 categoriaId: selectedCategoria.join(","),
@@ -90,17 +88,17 @@
             };
 
             $.ajax({
-                url:url,
-                type:'GET',
-                data:data,
-                success:function(result){
+                url: url,
+                type: 'GET',
+                data: data,
+                success: function (result) {
                     $('#productosContainer').html(result);
                 },
-                error: function(xhr,status, error){
+                error: function (xhr, status, error) {
                     console.log(error);
-                }   
+                }
             });
-        }   
+        } 
     });
     </script>
 }

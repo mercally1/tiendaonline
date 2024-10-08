@@ -19,8 +19,5 @@ public class Categoria
     [Required, StringLength(1000)]
     public string Descripcion { get; set; } = null!;
 
-    public ICollection<Producto> Productos { get; set; } 
-
-
-
+    public ICollection<Producto> Productos { get; set; }
 }

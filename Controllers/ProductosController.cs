@@ -11,7 +11,7 @@ namespace tienda.Controllers
     public class ProductosController : BaseController
     {
         public ProductosController(OnlineShopDbContext context)
-            : base(context){}
+            : base(context){ }
 
         // GET: Productos
         public async Task<IActionResult> Index()

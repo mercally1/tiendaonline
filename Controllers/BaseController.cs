@@ -49,9 +49,8 @@ public class BaseController : Controller
         {
             var carritoViewModel = await GetCarritoViewModelAsync();
 
-            var carritoItem = carritoViewModel.Item.FirstOrDefault(
-                item => item.ProductoId == productoId
-            );
+            var carritoItem = carritoViewModel.Item.FirstOrDefault
+                (item => item.ProductoId == productoId);
 
             if (carritoItem != null)
                 carritoItem.Cantidad += cantidad;
@@ -81,13 +80,12 @@ public class BaseController : Controller
     public async Task UpdateCarritoViewModelAsync(CarritoViewModel carritoViewModel)
     {
         var productoIds = carritoViewModel.Item.Select(
-                item => new ProductoIdAndCantidad
-                {
-                    ProductoId = item.ProductoId,
-                    Cantidad = item.Cantidad 
-                }
-        )
-        .ToList();
+            item => new ProductoIdAndCantidad
+            {
+                ProductoId = item.ProductoId,
+                Cantidad = item.Cantidad 
+            })
+            .ToList();
 
         var carritoJson =await Task.Run(() => JsonConvert.SerializeObject(productoIds));
         Response.Cookies.Append(
@@ -105,13 +103,13 @@ public class BaseController : Controller
             
             return new CarritoViewModel();
 
-        var ProductoIdAndCAntidad = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
+        var ProductoIdAndCantidad = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
 
         var carritoViewModel = new CarritoViewModel();
 
-        if(ProductoIdAndCAntidad != null){
+        if(ProductoIdAndCantidad != null){
 
-            foreach(var item in ProductoIdAndCAntidad)
+            foreach(var item in ProductoIdAndCantidad)
             {
                 var producto = await _context.Productos.FindAsync(item.ProductoId);
 
@@ -154,12 +152,12 @@ public class BaseController : Controller
     }
 
      protected IActionResult HandleDbUpdateError(DbUpdateException dbUpdateException)
-    {
+     {
         var ViewModel = new DbErrorViewModel{
             ErrorMessage = "!Hubo un error de actualización en la base de Datos",
             Details = dbUpdateException.Message
         };
 
         return View("DbError", ViewModel);
-    }
+     }
 }

@@ -38,10 +38,8 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            pedido.Direccion = 
-                await _context.Direcciones.FirstOrDefaultAsync(
-                    d=> d.DireccionId == pedido.DireccionSeleccionada
-                    ) ?? new Direccion();
+            pedido.Direccion = await _context.Direcciones.FirstOrDefaultAsync 
+                (d=> d.DireccionId == pedido.DireccionSeleccionada) ?? new Direccion();
 
             return View(pedido);
         }

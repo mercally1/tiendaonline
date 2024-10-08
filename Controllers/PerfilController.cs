@@ -9,8 +9,8 @@ namespace tienda.Controllers
     [Authorize(Policy = "RequiredAdminOrStaff")]
     public class PerfilController : BaseController
     {
-        public PerfilController (OnlineShopDbContext context) : base (context)
-        { }
+        public PerfilController (OnlineShopDbContext context) 
+            : base (context){ }
 
         public async Task<IActionResult> Details(int? id)
         {

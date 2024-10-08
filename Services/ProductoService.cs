@@ -31,14 +31,14 @@ public class ProductoService : IProductoService
         IQueryable<Producto> productosQuery = _context.Productos;
         productosQuery = productosQuery.Where(p => p.Activo);
 
-        List<Producto> productoDestacados = await productosQuery
-        .Take(5)
+        List<Producto> productosDestacados = await productosQuery
+        .Take(9)
         .ToListAsync();
 
-        return productoDestacados;
+        return productosDestacados;
     }
 
-    public async Task<ProductosPaginadosViewModel> GetProductoPaginados(int? categoriaId, string? busqueda, int pagina, int productosPorPagina)
+    public async Task<ProductosPaginadosViewModel> GetProductosPaginados(int? categoriaId, string? busqueda, int pagina, int productosPorPagina)
     {
         IQueryable<Producto> query = _context.Productos;
         query = query.Where(p => p.Activo);

@@ -1,13 +1,10 @@
 ﻿using System.Data.Common;
 using System.Security.Claims;
-using System.Security.Principal;
-using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using tienda.Data;
 using tienda.Models;
 
@@ -15,10 +12,8 @@ namespace tienda.Controllers
 {
     public class AccountController : BaseController
     {
-        public AccountController(OnlineShopDbContext context) : base(context)
-        {
-
-        }
+        public AccountController(OnlineShopDbContext context) 
+            : base(context) { }
 
         [AllowAnonymous]
         public IActionResult Register()
@@ -134,7 +129,6 @@ namespace tienda.Controllers
         {
             return View();
         }
-
     }
 }
 

@@ -3,13 +3,10 @@ using tienda.Models;
 
 namespace tienda.Data
 {
-    public class OnlineShopDbContext: DbContext
+    public class OnlineShopDbContext : DbContext
     {
         public OnlineShopDbContext(DbContextOptions<OnlineShopDbContext> options) 
-        : base(options)
-        {
-
-        }
+        : base(options){ }
 
         public DbSet<Categoria> Categorias { get; set; } = null!;
 

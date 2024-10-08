@@ -87,7 +87,8 @@ else{
         @if(Model.Direcciones.Count == 0)
         {
             <p>No se encontraron direcciones de envio para el usuario. Acceda a su perfil para agregar una direccion.</p>
-        } else 
+        } 
+        else 
         {
             @foreach (var direccion in Model.Direcciones)
             {

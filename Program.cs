@@ -13,8 +13,7 @@ builder.Services.AddDbContext<OnlineShopDbContext>(options => options.UseSqlServ
 builder.Services.AddAuthorization(options => 
 {
     options.AddPolicy("RequiredAdminOrStaff",
-    Policy => Policy.RequireRole("Administrador", "Staff")
-    );
+    Policy => Policy.RequireRole("Administrador", "Staff"));
 });
 
 builder.Services

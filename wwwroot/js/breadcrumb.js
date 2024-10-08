@@ -8,7 +8,7 @@ function updateBreadcrumb(){
         breadcrumbContainer.innerHTML+=
         `<li class="breadcrumb-item"><a href"/${controllerName}">${controllerName}</a></li>`;
     }
-    breadcrumbContainer.innerHTML+=`<li class="breadcrumb-item" active aria-current="page">${actionName}</li>`;
+    breadcrumbContainer.innerHTML +=`<li class="breadcrumb-item active" aria-current="page">${actionName}</li>`;
 }
 
 updateBreadcrumb();
