@@ -18,57 +18,57 @@
         </script>
     } else {
         <form asp-action="Register" method="post">
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="Nombre" class="control-label mb-1"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="Telefono" class="control-label mb-1"></label>
                 <input asp-for="Telefono" class="form-control" />
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NombreUsuario" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="NombreUsuario" class="control-label mb-1"></label>
                 <input asp-for="NombreUsuario" class="form-control" />
                 <span asp-validation-for="NombreUsuario" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Contrasenia" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="Contrasenia" class="control-label mb-1"></label>
                 <input asp-for="Contrasenia" type="password" class="form-control" />
                 <span asp-validation-for="Contrasenia" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Correo" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="Correo" class="control-label mb-1"></label>
                 <input asp-for="Correo" type="email" class="form-control" />
                 <span asp-validation-for="Correo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="Direccion" class="control-label mb-1"></label>
                 <input asp-for="Direccion" class="form-control" />
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Cuidad" class="control-label"></label>
                 <input asp-for="Cuidad" class="form-control" />
                 <span asp-validation-for="Cuidad" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Departamento" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="Departamento" class="control-label mb-1"></label>
                 <input asp-for="Departamento" class="form-control" />
                 <span asp-validation-for="Departamento" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CodigoPostal" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="CodigoPostal" class="control-label mb-1"></label>
                 <input asp-for="CodigoPostal" class="form-control" />
                 <span asp-validation-for="CodigoPostal" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Registrarse</button>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary mt-2">Registrarse</button>
+                <a asp-action="Login" class="btn btn-primary mt-2">Iniciar Sesion</a>
             </div>
         </form>
-        <br/>
-        <a asp-action="Login" class="btn btn-outline-primary mt-2">Iniciar Sesion</a>
+       
     }
 </div>
 

@@ -9,7 +9,6 @@ namespace tienda.Controllers
     [Authorize(Policy = "RequiredAdminOrStaff")]
     public class CategoriasController : BaseController
     {
-
         public CategoriasController(OnlineShopDbContext context) 
             : base(context) {  }
 

@@ -13,65 +13,63 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductoId" />
-            <div class="form-group">
-                <label asp-for="Codigo" class="control-label"></label>
+            <div class="form-group mt-2">
+                <label asp-for="Codigo" class="control-label mb-1"></label>
                 <input asp-for="Codigo" class="form-control" />
                 <span asp-validation-for="Codigo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
+            <div class="form-group mt-2">
+                <label asp-for="Nombre" class="control-label mb-1"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Modelo" class="control-label"></label>
+            <div class="form-group mt-2">
+                <label asp-for="Modelo" class="control-label mb-1"></label>
                 <input asp-for="Modelo" class="form-control" />
                 <span asp-validation-for="Modelo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
+            <div class="form-group mt-2">
+                <label asp-for="Descripcion" class="control-label mb-1"></label>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Precio" class="control-label"></label>
+            <div class="form-group mt-2">
+                <label asp-for="Precio" class="control-label mb-1"></label>
                 <input asp-for="Precio" class="form-control" />
                 <span asp-validation-for="Precio" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Imagen" class="control-label"></label>
+            <div class="form-group mt-2">
+                <label asp-for="Imagen" class="control-label mb-1"></label>
                 <input asp-for="Imagen" class="form-control" />
                 <span asp-validation-for="Imagen" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CategoriaId" class="control-label"></label>
+            <div class="form-group mt-2">
+                <label asp-for="CategoriaId" class="control-label mb-1"></label>
                 <input asp-for="CategoriaId" class="form-control" />
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Stock" class="control-label"></label>
+            <div class="form-group mt-2">
+                <label asp-for="Stock" class="control-label mt-1"></label>
                 <input asp-for="Stock" class="form-control" />
                 <span asp-validation-for="Stock" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Marca" class="control-label"></label>
+            <div class="form-group mt-2">
+                <label asp-for="Marca" class="control-label mb-1"></label>
                 <input asp-for="Marca" class="form-control" />
                 <span asp-validation-for="Marca" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
+            <div class="form-group form-check mt-2">
+                <label class="form-check-label mb-1">
                     <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-2">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-info">Back to List</a>
+                <a asp-controller="Dashboard" asp-action="Index" class="btn btn-secondary">Main Principal</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

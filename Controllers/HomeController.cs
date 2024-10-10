@@ -11,7 +11,6 @@ public class HomeController : BaseController
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IProductoService _productoService;
-
     private readonly ICategoriaService _categoriaService ;
 
     public HomeController(
@@ -27,7 +26,7 @@ public class HomeController : BaseController
 
     public async Task<IActionResult> Index()
     {
-        ViewBag.categorias = await _categoriaService.GetCategorias();
+        ViewBag.Categorias = await _categoriaService.GetCategorias();
 
         try
         {
@@ -53,8 +52,8 @@ public class HomeController : BaseController
     {
         try
         {
-            int productoPorPagina = 9;
-            var model = await _productoService.GetProductoPaginados(CategoriaId, busqueda, pagina, productoPorPagina);
+            int productosPorPagina = 9;
+            var model = await _productoService.GetProductosPaginados(CategoriaId, busqueda, pagina, productosPorPagina);
 
             ViewBag.Categorias = await _categoriaService.GetCategorias();
 
@@ -94,9 +93,7 @@ public class HomeController : BaseController
     {
         var carritoViewModel = await AgregarProductoAlCarrito(id, cantidad);
         if (carritoViewModel != null)
-        {
             return RedirectToAction("Index");
-        }
         else 
             return NotFound();
     }

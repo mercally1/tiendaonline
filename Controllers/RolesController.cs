@@ -10,9 +10,7 @@ namespace tienda.Controllers
     public class RolesController : BaseController
     {
         public RolesController(OnlineShopDbContext context)
-            : base(context)
-        {
-        }
+            : base(context){ }
 
         // GET: Roles
         public async Task<IActionResult> Index()

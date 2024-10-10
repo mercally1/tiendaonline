@@ -8,14 +8,10 @@ using tienda.Models;
 namespace tienda.Controllers
 {
     [Authorize(Policy = "RequiredAdminOrStaff")]
-    public class UsuariosController : Controller
+    public class UsuariosController : BaseController
     {
-        private readonly OnlineShopDbContext _context;
-
-        public UsuariosController(OnlineShopDbContext context)
-        {
-            _context = context;
-        }
+        public UsuariosController(OnlineShopDbContext context) 
+            : base(context) { }
 
         // GET: Usuarios
         public async Task<IActionResult> Index()
@@ -119,8 +115,6 @@ namespace tienda.Controllers
 
             if (rol != null)
             {
-            
-
                 var existingUser = await _context.Usuarios
                     .Include(u => u.Direcciones)
                     .FirstOrDefaultAsync(u => u.UsuarioId == id);
@@ -130,10 +124,10 @@ namespace tienda.Controllers
                     if (existingUser.Direcciones.Count > 0)
                     {
                         var direccion = existingUser.Direcciones.First();
-                        direccion.Address = usuario.Direccion;
-                        direccion.Cuidad = usuario.Cuidad;
-                        direccion.Departamento = usuario.Departamento;
-                        direccion.CodigoPostal = usuario.CodigoPostal;
+                            direccion.Address = usuario.Direccion;
+                            direccion.Cuidad = usuario.Cuidad;
+                            direccion.Departamento = usuario.Departamento;
+                            direccion.CodigoPostal = usuario.CodigoPostal;
                     }
                     else
                     {

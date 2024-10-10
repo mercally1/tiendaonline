@@ -2,7 +2,7 @@ namespace tienda.Models.ViewModels;
 
 public class ProductosPaginadosViewModel
 {
-    public List<Producto> productos { get; set; } = null!;
+    public List<Producto> Productos { get; set; } = null!;
 
     public int PaginaActual { get; set; }
 

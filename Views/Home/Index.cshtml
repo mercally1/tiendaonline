@@ -6,27 +6,28 @@
 
 <div class="container">
     <nav aria-label="breadcrumb">
-        <ol class="bradcrumb" id="breadcrumb-container"></ol>
+        <ol class="breadcrumb" id="breadcrumb-container"> </ol>
     </nav>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 @foreach(var categoria in ViewBag.Categorias)
                 {
-                    <a href="@Url.Action("Productos", "Home", new{categoriaId=categoria.CategoriaId})" 
+                    <a href="@Url.Action("Productos", "Home", new {categoria = categoria.CategoriaId})" 
                     class="btn btn-outline-secondary btn-sm">@categoria.Nombre</a>
                 }
             </div>
         </div>
     </div>
     <h2 class="my-4">Productos Destacados</h2>
-    <div class="row" id="productoConteiner">
+    <div class="row" id="productosConteiner">
         @foreach(var producto in Model)
         {
             <div class="col-md4 col-sm-6 mb-4 productoItem" data-categoria="@producto.CategoriaId">
                 <div class="card h-100 d-grid" >
-                    <a href="@Url.Action("DetalleProducto", "Home", new{id =producto.ProductoId})">
-                        <img src="@producto.Imagen" alt="Imagen del producto" class="card-img-top">
+                    <a 
+                        href="@Url.Action("DetalleProducto", "Home", new{id =producto.ProductoId})">
+                        <img src="@producto.Imagen" alt="Imagen del producto" class="card-img-top" />
                     </a>
                     <div class="card-body">
                         <h5 class="card-title text-center"> <a href="@Url.Action("DetalleProducto", "Home", new{id=producto.ProductoId})">
@@ -35,21 +36,22 @@
                     </div>
                     <ul class="list-group list-group-flush text-center">
                         <li class="list-group-item">Modelo: @producto.Modelo</li>
-                        <li class="list-group-item" font-weidth-bold>@String.Format("{0:c}", producto.Precio)</li>
+                        <li class="list-group-item" font-weidth-bold>@String.Format("{0:C}", producto.Precio)</li>
                     </ul>
                     <div class="card-body mt-auto">
                         @if (producto.Stock < 1)
                         {
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fas fa-exclamation-circle"></i>Agotado
+                            <div class="alert alert-danger text-center" role="alert">
+                                <i class="fas fa-exclamation-circle"></i> Agotado
                             </div>
-                        } else 
+                        } 
+                        else 
                         {
                             <form method="post" action="Url.Action("AgregarProductoIndex")" class="d-flex">
                                 <input type="hidden" name="id" value="@producto.ProductoId" />
                                 <input type="number" class="form-control mr-2" name="cantidad" value="1" min="1" max="@producto.Stock" />
                                 <button type="submit" class="btn btn-outline-primary rounded-pill">
-                                    <i class="fas fa-card-plus"></i>
+                                    <i class="fas fa-cart-plus"></i>
                                 </button>
                             </form>
                         }

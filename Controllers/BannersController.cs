@@ -7,10 +7,8 @@ namespace tienda.Controllers
 {
     public class BannersController : BaseController
     {
-        public BannersController(OnlineShopDbContext context) : base(context) 
-        {
-
-        }
+        public BannersController(OnlineShopDbContext context) 
+            : base(context) { }
 
         // GET: Banners
         public async Task<IActionResult> Index()

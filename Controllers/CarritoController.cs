@@ -47,12 +47,12 @@ namespace tienda.Controllers
 
             carritoViewModel.Total = carritoViewModel.Item.Sum(item => item.Subtotal);
 
-            var UsuarioId=User.Identity?.IsAuthenticated==true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
+            var UsuarioId = User.Identity?.IsAuthenticated == true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
 
             var direcciones = User.Identity?.IsAuthenticated == true ?
                 _context.Direcciones.Where(d => d.UsuarioId == UsuarioId).ToList() : new List<Direccion>();
 
-            var procederConCompraViewModel = new Models.ViewModels.ProcederConCompraViewModel
+            var procederConCompraViewModel = new ProcederConCompraViewModel
             {
                 Carrito = carritoViewModel,
                 Direcciones = direcciones
@@ -116,12 +116,12 @@ namespace tienda.Controllers
         {
             if (direccionIdSeleccionada > 0)
             {
-                Response.Cookies.Append(
-                    "direccionseleccionada", direccionIdSeleccionada.ToString(),
-                    new CookieOptions {Expires = DateTimeOffset.Now.AddDays(1)}
-                );
+                Response.Cookies.Append
+                    ("direccionseleccionada", direccionIdSeleccionada.ToString(),
+                    new CookieOptions {Expires = DateTimeOffset.Now.AddDays(1)});
             }else
-                return View("Index");
+            
+            return View("Index");
 
             var request = new OrdersCreateRequest();
             request.Prefer("return=representation");
@@ -179,7 +179,7 @@ namespace tienda.Controllers
         {
             try
             {
-                var carritoJson =Request.Cookies["carrito"];
+                var carritoJson = Request.Cookies["carrito"];
 
                 int direccionId = 0;
 

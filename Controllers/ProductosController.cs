@@ -11,7 +11,7 @@ namespace tienda.Controllers
     public class ProductosController : BaseController
     {
         public ProductosController(OnlineShopDbContext context)
-            : base(context){}
+            : base(context){ }
 
         // GET: Productos
         public async Task<IActionResult> Index()
@@ -57,7 +57,7 @@ namespace tienda.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductoId"] = new SelectList(_context.Categorias, "CategoriaId", "Descripcion", producto.ProductoId);
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Descripcion", producto.ProductoId);
             return View(producto);
         }
 
