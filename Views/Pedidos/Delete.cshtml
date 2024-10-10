@@ -45,7 +45,8 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="PedidoId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
         <a asp-action="Index" class="btn btn-info">Back to List</a>
+        <a asp-controller="Dashboard" asp-action="Index" class="btn btn-secondary">Main Principal</a>
     </form>
 </div>
