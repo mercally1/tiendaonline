@@ -26,7 +26,7 @@ public class BaseController : Controller
 
     protected int GetCarritoCount()
     {
-        int Count = 0;
+        int count = 0;
 
         string? carritoJson= Request.Cookies["carrito"];
         if (!string.IsNullOrEmpty(carritoJson))
@@ -34,11 +34,10 @@ public class BaseController : Controller
             var carrito = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
             if (carrito != null)
             {
-                Count = carrito.Count;
+                count = carrito.Count;
             }
         }
-
-        return Count;
+        return count;
     }
 
     public async Task<CarritoViewModel> AgregarProductoAlCarrito(int productoId, int cantidad)
@@ -100,16 +99,15 @@ public class BaseController : Controller
         var carritoJson = Request.Cookies["carrito"];
 
         if(string.IsNullOrEmpty(carritoJson))
-            
             return new CarritoViewModel();
 
-        var ProductoIdAndCantidad = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
+        var ProductoIdAndCantidades = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
 
         var carritoViewModel = new CarritoViewModel();
 
-        if(ProductoIdAndCantidad != null){
+        if(ProductoIdAndCantidades != null){
 
-            foreach(var item in ProductoIdAndCantidad)
+            foreach(var item in ProductoIdAndCantidades)
             {
                 var producto = await _context.Productos.FindAsync(item.ProductoId);
 
@@ -147,7 +145,6 @@ public class BaseController : Controller
             ErrorMessage = "Error de la base de Datos",
             Details = dbException.Message
         };
-
         return View("DbError", ViewModel);
     }
 
@@ -157,7 +154,6 @@ public class BaseController : Controller
             ErrorMessage = "!Hubo un error de actualización en la base de Datos",
             Details = dbUpdateException.Message
         };
-
         return View("DbError", ViewModel);
      }
 }

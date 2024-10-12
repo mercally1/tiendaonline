@@ -22,35 +22,29 @@ namespace tienda.Controllers
         {
             var carritoViewModel = await GetCarritoViewModelAsync();
 
-            var itemsEliminar = new List<CarritoItemViewModel>();
-
-            foreach (var item in carritoViewModel.Item) 
+            foreach (var item in carritoViewModel.Item)
             {
                 var producto = await _context.Productos.FindAsync(item.ProductoId);
-                if (producto != null)
+                if(producto != null)
                 {
                     item.Producto = producto;
 
-                    if (!producto.Activo)
-                        itemsEliminar.Add(item);
+                    if(!producto.Activo)
+                        item.Cantidad = 0;
                     else
                         item.Cantidad = Math.Min(item.Cantidad, producto.Stock);
+                    
+                    if(item.Cantidad == 0)
+                        item.Cantidad = 1;
                 }
-                else
-                    itemsEliminar.Add(item);
+                else 
+                item.Cantidad = 0;
             }
 
-            foreach(var item in itemsEliminar)
-                carritoViewModel.Item.Remove(item);
-
-            await UpdateCarritoViewModelAsync(carritoViewModel);
-
-            carritoViewModel.Total = carritoViewModel.Item.Sum(item => item.Subtotal);
-
-            var UsuarioId = User.Identity?.IsAuthenticated == true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
-
-            var direcciones = User.Identity?.IsAuthenticated == true ?
-                _context.Direcciones.Where(d => d.UsuarioId == UsuarioId).ToList() : new List<Direccion>();
+            var usuarioId = User.Identity?.IsAuthenticated == true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)):0;
+            
+            var direcciones = User.Identity?.IsAuthenticated == true ? 
+                _context.Direcciones.Where(d => d.UsuarioId == usuarioId).ToList() : new List<Direccion>();
 
             var procederConCompraViewModel = new ProcederConCompraViewModel
             {
@@ -59,6 +53,46 @@ namespace tienda.Controllers
             };
 
             return View(procederConCompraViewModel);
+
+
+
+            //  var itemsEliminar = new List<CarritoItemViewModel>();
+
+            // foreach (var item in carritoViewModel.Item) 
+            // {
+            //     var producto = await _context.Productos.FindAsync(item.ProductoId);
+            //     if (producto != null)
+            //     {
+            //         item.Producto = producto;
+
+            //         if (!producto.Activo)
+            //             itemsEliminar.Add(item);
+            //         else
+            //             item.Cantidad = Math.Min(item.Cantidad, producto.Stock);
+            //     }
+            //     else
+            //         itemsEliminar.Add(item);
+            // }
+
+            // foreach(var item in itemsEliminar)
+            //     carritoViewModel.Item.Remove(item);
+
+            // await UpdateCarritoViewModelAsync(carritoViewModel);
+
+            // carritoViewModel.Total = carritoViewModel.Item.Sum(item => item.Subtotal);
+
+            // var UsuarioId = User.Identity?.IsAuthenticated == true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
+
+            // var direcciones = User.Identity?.IsAuthenticated == true ?
+            //     _context.Direcciones.Where(d => d.UsuarioId == UsuarioId).ToList() : new List<Direccion>();
+
+            // var procederConCompraViewModel = new ProcederConCompraViewModel
+            // {
+            //     Carrito = carritoViewModel,
+            //     Direcciones = direcciones
+            // };
+
+            // return View(procederConCompraViewModel);
         }
 
         [HttpPost]
@@ -72,11 +106,10 @@ namespace tienda.Controllers
                 carritoItem.Cantidad = cantidad;
                 var producto = await _context.Productos.FindAsync(id);
                 if (producto != null && producto.Activo && producto.Stock > 0)
-                    carritoItem.Cantidad =Math.Min(cantidad,producto.Stock);
+                    carritoItem.Cantidad = Math.Min(cantidad,producto.Stock);
 
                 await UpdateCarritoViewModelAsync(carritoViewModel);
             }
-
             return RedirectToAction("Index", "Carrito");
         }
 
@@ -92,7 +125,6 @@ namespace tienda.Controllers
 
                 await UpdateCarritoViewModelAsync(carritoViewModel);
             }
-
             return RedirectToAction("Index");
         }
 
@@ -149,6 +181,8 @@ namespace tienda.Controllers
             }
         }
 
+
+        //metodo para proceder con la compra
         private OrderRequest BuildRequestBody(decimal montoTotal)
         {
             var baseUrl=$"{Request.Scheme}://{Request.Host}";

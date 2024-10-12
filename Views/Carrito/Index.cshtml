@@ -30,7 +30,7 @@ else{
                     <tr>
                         <td>@item.Nombre</td>
                         <td>
-                          @if(item.Cantidad < 1)
+                            @if(item.Cantidad < 1)
                         {
                             <form>
                                 <div class="alert alert-danger" role="alert">
@@ -43,14 +43,14 @@ else{
                         {
                             <form asp-action="ActualiazarCantidad" asp-controller="Carrito" method="post">
                                 <div class="input-group input-group-sm">
-                                    <input type="number" value="@item.Cantidad" name="cantidad" class="form-control" min="1" max="@item.Producto.Stock"/>
+                                    <input type="number" value="@item.Cantidad" value="item.Cantidad" name="cantidad" class="form-control" min="1" max="@item.Producto.Stock"/>
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i></button>
                                     </div>
                                 </div>
                                 <input type="hidden" name="id" value="@item.ProductoId"/>
                             </form>
-                        }   
+                        }
                         </td>
                         <td> @item.Precio </td>
                         <td>@item.Subtotal.ToString("C")</td>
@@ -74,7 +74,7 @@ else{
     </div>
 
     <div class="text-rigth">
-        <form asp-action="Carrito" asp-controller="VaciarCarrito" method="post">
+        <form asp-action="VaciarCarrito" asp-controller="Carrito" method="post">
             <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i>Vaciar Carrito</button>
         </form>
     </div>
@@ -103,13 +103,13 @@ else{
                 </div>
             }
             <input type="hidden" name="montoTotal" value="@Model.Carrito.Total"/>
-            <button type="submit" class="btn btn-primary btn-lg"><i class="fab fa-paypald"></i>Proceder con Compra</button>
+            <button type="submit" class="btn btn-primary btn-lg"><i class="fab fa-paypal"></i>Proceder con Compra</button>
         }
         </form>
     } 
     else 
     { 
-        <a class="btn btn-primary asp-action" asp-action="Login" asp-controller="Account">Iniciar Sesion para proceder con la compra.</a>
+        <a class="btn btn-primary" asp-action="Login" asp-controller="Account">Iniciar Sesion para proceder con la compra.</a>
     }
     </div>
 }

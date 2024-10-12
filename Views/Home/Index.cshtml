@@ -23,7 +23,7 @@
     <div class="row" id="productosConteiner">
         @foreach(var producto in Model)
         {
-            <div class="col-md4 col-sm-6 mb-4 productoItem" data-categoria="@producto.CategoriaId">
+            <div class="col-md-4 col-sm-6 mb-4 productoItem" data-categoria="@producto.CategoriaId">
                 <div class="card h-100 d-grid" >
                     <a 
                         href="@Url.Action("DetalleProducto", "Home", new{id =producto.ProductoId})">
@@ -36,7 +36,7 @@
                     </div>
                     <ul class="list-group list-group-flush text-center">
                         <li class="list-group-item">Modelo: @producto.Modelo</li>
-                        <li class="list-group-item" font-weidth-bold>@String.Format("{0:C}", producto.Precio)</li>
+                        <li class="list-group-item font-weidth-bold">@String.Format("{0:C}", producto.Precio)</li>
                     </ul>
                     <div class="card-body mt-auto">
                         @if (producto.Stock < 1)
