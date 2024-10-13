@@ -11,10 +11,12 @@
         <div class="col-md-12">
             <p>No se encontraron productos que coincidan con la busqueda.</p>
         </div>
-    }else {
+    }
+    else 
+    {
         @foreach(var producto in Model.Productos)
         {
-            <div class="col-md-4 col-sm-4 mb-4 productoItem" data-categoria="@producto.CategoriaId">
+            <div class="col-md-4 col-sm-3 mb-3 productoItem" data-categoria="@producto.CategoriaId">
                 <div class="card h-100 d-grid" >
                     <a 
                         href="@Url.Action("DetalleProducto", "Home", new {id = producto.ProductoId})">
@@ -59,9 +61,9 @@
 
 <nav>
     <ul class="pagination justify-content-center">
-        @if (Model.TotalPaginas < 1)
+        @if (Model.TotalPaginas > 1)
         {
-            for(int pagina = 1; pagina <= Model.TotalPagina; pagina++)
+            for(int pagina = 1; pagina <= Model.TotalPaginas; pagina++)
             {
                 <li class="page-item @pagina==Model.PaginaActual ? "active" : "">
                     <a class="page-link" href="@Url.Action("Productos", "Home",  
