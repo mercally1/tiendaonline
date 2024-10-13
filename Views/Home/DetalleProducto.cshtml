@@ -13,7 +13,7 @@
         <div class="col-md-3">
             <img src="@Model.Imagen" class="img-fluid" alt="Imagen del producto" >
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <h4>Modelo: @Model.Modelo</h4>
             <p>@Model.Descripcion</p>
             <p>Precio: @String.Format("{0:C}", Model.Precio)</p>
@@ -23,7 +23,7 @@
             @if(Model.Stock < 1)
             {
                 <div class="alert alert-danger text-center" role="alert">
-                    <i class="fas fa-exclamartion-circle"></i> Agotado
+                    <i class="fas fa-exclamation-circle"></i> Agotado
                 </div>
             }
             else 
