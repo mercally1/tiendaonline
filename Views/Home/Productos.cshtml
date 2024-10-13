@@ -75,7 +75,7 @@
                 $('.productoItem').show();
             } else {
                 $('.productoItem').hide();
-                selectedCategoria.forEach(function (categoriaId) {
+                selectedCategorias.forEach(function (categoriaId) {
                     $('.productoItem[data-categoria="' + categoriaId + '"]').show();
                 });
             }
@@ -83,7 +83,7 @@
             var url = '@Url.Action("Productos", "Home")';
             var data = {
                 pagina: @Model.PaginaActual,
-                categoriaId: selectedCategoria.join(","),
+                categoriaId: selectedCategorias.join(","),
                 busqueda: '@Model.Busqueda'
             };
 
