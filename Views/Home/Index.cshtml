@@ -23,7 +23,7 @@
     <div class="row" id="productosConteiner">
         @foreach(var producto in Model)
         {
-            <div class="col-md-4 col-sm-4 mb-3 productoItem" data-categoria="@producto.CategoriaId">
+            <div class="col-md-4 col-sm-6 mb-3 productoItem" data-categoria="@producto.CategoriaId">
                 <div class="card h-100 d-grid" >
                     <a 
                         href="@Url.Action("DetalleProducto", "Home", new{id =producto.ProductoId})">
