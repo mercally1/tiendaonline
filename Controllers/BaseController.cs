@@ -48,13 +48,13 @@ public class BaseController : Controller
         {
             var carritoViewModel = await GetCarritoViewModelAsync();
 
-            var carritoItem = carritoViewModel.Item.FirstOrDefault
+            var carritoItem = carritoViewModel.Items.FirstOrDefault
                 (item => item.ProductoId == productoId);
 
             if (carritoItem != null)
                 carritoItem.Cantidad += cantidad;
             else
-                carritoViewModel.Item.Add(
+                carritoViewModel.Items.Add(
                     new CarritoItemViewModel
                     {
                         ProductoId = producto.ProductoId,
@@ -64,7 +64,7 @@ public class BaseController : Controller
                     }
                 );
 
-            carritoViewModel.Total = carritoViewModel.Item.Sum(
+            carritoViewModel.Total = carritoViewModel.Items.Sum(
                 item => item.Cantidad * item.Precio
             );
 
@@ -78,7 +78,7 @@ public class BaseController : Controller
 
     public async Task UpdateCarritoViewModelAsync(CarritoViewModel carritoViewModel)
     {
-        var productoIds = carritoViewModel.Item.Select(
+        var productoIds = carritoViewModel.Items.Select(
             item => new ProductoIdAndCantidad
             {
                 ProductoId = item.ProductoId,
@@ -113,7 +113,7 @@ public class BaseController : Controller
 
                 if(producto != null)
                 {
-                    carritoViewModel.Item.Add(
+                    carritoViewModel.Items.Add(
                         new CarritoItemViewModel
                         {
                             ProductoId = producto.ProductoId,
@@ -125,7 +125,7 @@ public class BaseController : Controller
                 }
             }
         }
-        carritoViewModel.Total = carritoViewModel.Item.Sum(item => item.Subtotal);
+        carritoViewModel.Total = carritoViewModel.Items.Sum(item => item.Subtotal);
 
         return new CarritoViewModel();
     }

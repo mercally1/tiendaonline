@@ -22,7 +22,7 @@ namespace tienda.Controllers
         {
             var carritoViewModel = await GetCarritoViewModelAsync();
 
-            foreach (var item in carritoViewModel.Item)
+            foreach (var item in carritoViewModel.Items)
             {
                 var producto = await _context.Productos.FindAsync(item.ProductoId);
                 if(producto != null)
@@ -51,55 +51,14 @@ namespace tienda.Controllers
                 Carrito = carritoViewModel,
                 Direcciones = direcciones
             };
-
             return View(procederConCompraViewModel);
-
-
-
-            //  var itemsEliminar = new List<CarritoItemViewModel>();
-
-            // foreach (var item in carritoViewModel.Item) 
-            // {
-            //     var producto = await _context.Productos.FindAsync(item.ProductoId);
-            //     if (producto != null)
-            //     {
-            //         item.Producto = producto;
-
-            //         if (!producto.Activo)
-            //             itemsEliminar.Add(item);
-            //         else
-            //             item.Cantidad = Math.Min(item.Cantidad, producto.Stock);
-            //     }
-            //     else
-            //         itemsEliminar.Add(item);
-            // }
-
-            // foreach(var item in itemsEliminar)
-            //     carritoViewModel.Item.Remove(item);
-
-            // await UpdateCarritoViewModelAsync(carritoViewModel);
-
-            // carritoViewModel.Total = carritoViewModel.Item.Sum(item => item.Subtotal);
-
-            // var UsuarioId = User.Identity?.IsAuthenticated == true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
-
-            // var direcciones = User.Identity?.IsAuthenticated == true ?
-            //     _context.Direcciones.Where(d => d.UsuarioId == UsuarioId).ToList() : new List<Direccion>();
-
-            // var procederConCompraViewModel = new ProcederConCompraViewModel
-            // {
-            //     Carrito = carritoViewModel,
-            //     Direcciones = direcciones
-            // };
-
-            // return View(procederConCompraViewModel);
         }
 
         [HttpPost]
         public async Task<ActionResult> ActualizarCantidad(int id, int cantidad)
         {
             var carritoViewModel = await GetCarritoViewModelAsync();
-            var carritoItem = carritoViewModel.Item.FirstOrDefault(d => d.ProductoId == id);
+            var carritoItem = carritoViewModel.Items.FirstOrDefault(d => d.ProductoId == id);
 
             if (carritoItem != null)
             {
@@ -117,11 +76,11 @@ namespace tienda.Controllers
          public async Task<ActionResult> EliminarProducto(int id, int cantidad)
         {
             var carritoViewModel = await GetCarritoViewModelAsync();
-            var carritoItem = carritoViewModel.Item.FirstOrDefault(d => d.ProductoId == id);
+            var carritoItem = carritoViewModel.Items.FirstOrDefault(d => d.ProductoId == id);
 
             if (carritoItem != null)
             {
-               carritoViewModel.Item.Remove(carritoItem);
+               carritoViewModel.Items.Remove(carritoItem);
 
                 await UpdateCarritoViewModelAsync(carritoViewModel);
             }
@@ -233,7 +192,7 @@ namespace tienda.Controllers
                         var producto = _context.Productos.Find(item.ProductoId);
                         if(producto != null)
                         {
-                            carritoViewModel.Item.Add
+                            carritoViewModel.Items.Add
                             (
                                 new CarritoItemViewModel
                                 {
@@ -250,7 +209,7 @@ namespace tienda.Controllers
 
                 var usuarioId = User.Identity?.IsAuthenticated== true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
 
-                carritoViewModel.Total = carritoViewModel.Item.Sum(i => i.Subtotal);
+                carritoViewModel.Total = carritoViewModel.Items.Sum(i => i.Subtotal);
 
                 var pedido  = new Pedido
                 {
@@ -264,7 +223,7 @@ namespace tienda.Controllers
                 _context.Pedidos.Add(pedido);
                 _context.SaveChanges();
 
-                foreach (var item in carritoViewModel.Item)
+                foreach (var item in carritoViewModel.Items)
                 {
                     var pedidoDetalle = new Detalle_Pedido{
                         PedidoId = pedido.PedidoId,

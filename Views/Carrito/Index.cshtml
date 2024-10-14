@@ -5,7 +5,7 @@
 }
 
 <h2>Carrito de compras</h2>
-@if(Model.Carrito.Item.Count == 0)
+@if(Model.Carrito.Items.Count == 0)
 {
     <div class="alert alert-info">
         <p>No hay productos en el carrito</p>
@@ -25,7 +25,7 @@ else{
                 </tr>
             </thead>
             <tbody>
-                @foreach(var item in Model.Carrito.Item)
+                @foreach(var item in Model.Carrito.Items)
                 {
                     <tr>
                         <td>@item.Nombre</td>
@@ -43,7 +43,7 @@ else{
                         {
                             <form asp-action="ActualiazarCantidad" asp-controller="Carrito" method="post">
                                 <div class="input-group input-group-sm">
-                                    <input type="number" value="@item.Cantidad" value="item.Cantidad" name="cantidad" class="form-control" min="1" max="@item.Producto.Stock"/>
+                                    <input type="number" name="cantidad" class="form-control" min="1" max="@item.Producto.Stock"/>
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i></button>
                                     </div>
@@ -97,7 +97,7 @@ else{
                         class="form-check-input" value="@direccion.DireccionId" 
                         id="@direccion.DireccionId" for="@direccion.DireccionId" 
                         required/>
-                    <label class="form.form-check-label" for="@direccion.DireccionId">
+                    <label class="form-check-label" for="@direccion.DireccionId">
                         @direccion.Address, @direccion.Cuidad, @direccion.Departamento, @direccion.CodigoPostal
                     </label>
                 </div>
