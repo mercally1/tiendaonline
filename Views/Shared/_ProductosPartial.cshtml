@@ -41,7 +41,7 @@
                         } 
                         else 
                         {
-                            <form method="post" action="Url.Action("AgregarProducto")" class="d-flex">
+                            <form method="post" action="@Url.Action("AgregarProducto")" class="d-flex">
                                 <input type="hidden" name="id" value="@producto.ProductoId" />
                                 <input type="number" class="form-control mr-2" name="cantidad" value="1" min="1" max="@producto.Stock" />
                                 <input type="hidden" name="busqueda" value="@Model.Busqueda" />

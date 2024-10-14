@@ -1,5 +1,3 @@
-using System.Configuration;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tienda.Data;
 using tienda.Models;
@@ -11,7 +9,7 @@ public class HomeController : BaseController
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IProductoService _productoService;
-    private readonly ICategoriaService _categoriaService ;
+    private readonly ICategoriaService _categoriaService;
 
     public HomeController(
         ILogger<HomeController> logger, OnlineShopDbContext context,
@@ -48,12 +46,12 @@ public class HomeController : BaseController
         return View(producto);
     }
 
-    public async Task<IActionResult> Productos(int? CategoriaId, string? busqueda, int pagina = 1)
+    public async Task<IActionResult> Productos(int? categoriaId, string? busqueda, int pagina = 1)
     {
         try
         {
             int productosPorPagina = 9;
-            var model = await _productoService.GetProductosPaginados(CategoriaId, busqueda, pagina, productosPorPagina);
+            var model = await _productoService.GetProductosPaginados(categoriaId, busqueda, pagina, productosPorPagina);
 
             ViewBag.Categorias = await _categoriaService.GetCategorias();
 
@@ -61,7 +59,6 @@ public class HomeController : BaseController
             {
                 return PartialView("_ProductosPartial", model);
             }
-
             return View(model);
         }
         catch (Exception e)

@@ -72,7 +72,6 @@ public class BaseController : Controller
 
             return carritoViewModel;
         }
-
         return new CarritoViewModel();
     }
 

@@ -13,20 +13,20 @@
             <div class="col-md-12">
                 @foreach(var categoria in ViewBag.Categorias)
                 {
-                    <a href="@Url.Action("Productos", "Home", new {categoria = categoria.CategoriaId})" 
+                    <a href="@Url.Action("Productos", "Home", new {categoriaId = categoria.CategoriaId})" 
                     class="btn btn-outline-secondary btn-sm">@categoria.Nombre</a>
                 }
             </div>
         </div>
     </div>
     <h2 class="my-4">Productos Destacados</h2>
-    <div class="row" id="productosConteiner">
+    <div class="row" id="productosContainer">
         @foreach(var producto in Model)
         {
             <div class="col-md-4 col-sm-6 mb-3 productoItem" data-categoria="@producto.CategoriaId">
                 <div class="card h-100 d-grid" >
                     <a 
-                        href="@Url.Action("DetalleProducto", "Home", new{id =producto.ProductoId})">
+                        href="@Url.Action("DetalleProducto", "Home", new{id = producto.ProductoId})">
                         <img src="@producto.Imagen" alt="Imagen del producto" class="card-img-top" />
                     </a>
                     <div class="card-body">
@@ -47,7 +47,7 @@
                         } 
                         else 
                         {
-                            <form method="post" action="Url.Action("AgregarProductoIndex")" class="d-flex">
+                            <form method="post" action="@Url.Action("AgregarProductoIndex")" class="d-flex">
                                 <input type="hidden" name="id" value="@producto.ProductoId" />
                                 <input type="number" class="form-control mr-2" name="cantidad" value="1" min="1" max="@producto.Stock" />
                                 <button type="submit" class="btn btn-outline-primary rounded-pill">
