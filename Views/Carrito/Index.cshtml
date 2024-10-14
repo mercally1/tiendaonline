@@ -35,8 +35,8 @@ else{
                             <form>
                                 <div class="alert alert-danger" role="alert">
                                     <i class="fas fa-exclamation-circle"> Agotado</i>
-                                    <input type="hidden" name="id" value="@item.ProductoId">
                                 </div>
+                                <input type="hidden" name="id" value="@item.ProductoId">
                             </form>
                         } 
                         else
@@ -80,7 +80,7 @@ else{
     </div>
 
     <div class="text-left">
-    @(User.Identity !=null && User.Identity.IsAuthenticated)
+    @if(User.Identity !=null && User.Identity.IsAuthenticated)
     {
         <form asp-controller="Carrito" asp-action="ProcederConCompra" method="post">
         <h3>Direcciones de envio</h3>
