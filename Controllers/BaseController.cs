@@ -54,6 +54,7 @@ public class BaseController : Controller
             if (carritoItem != null)
                 carritoItem.Cantidad += cantidad;
             else
+            {
                 carritoViewModel.Items.Add(
                     new CarritoItemViewModel
                     {
@@ -62,12 +63,11 @@ public class BaseController : Controller
                         Precio = producto.Precio,
                         Cantidad = cantidad
                     }
-                );
-
+                ); 
+            }
             carritoViewModel.Total = carritoViewModel.Items.Sum(
                 item => item.Cantidad * item.Precio
             );
-
             await UpdateCarritoViewModelAsync(carritoViewModel);
 
             return carritoViewModel;
@@ -100,13 +100,13 @@ public class BaseController : Controller
         if(string.IsNullOrEmpty(carritoJson))
             return new CarritoViewModel();
 
-        var ProductoIdAndCantidades = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
+        var productoIdsAndCantidades = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
 
         var carritoViewModel = new CarritoViewModel();
 
-        if(ProductoIdAndCantidades != null){
+        if(productoIdsAndCantidades != null){
 
-            foreach(var item in ProductoIdAndCantidades)
+            foreach(var item in productoIdsAndCantidades)
             {
                 var producto = await _context.Productos.FindAsync(item.ProductoId);
 
@@ -126,7 +126,7 @@ public class BaseController : Controller
         }
         carritoViewModel.Total = carritoViewModel.Items.Sum(item => item.Subtotal);
 
-        return new CarritoViewModel();
+        return carritoViewModel;
     }
 
     protected IActionResult HandleError(Exception e)
