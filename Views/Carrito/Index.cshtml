@@ -76,7 +76,7 @@ else
          
          <div class="alert alert-info col-lg-6 col-md-10 text-center">
             <div class="row">
-                <div class="col-lg-6 col-md-5 mt-5 mt-2">
+                <div class="col-lg-6 col-md-5 mt-4 mt-2 mb-4">
                         @* botton vaciar carrito *@
                     <form asp-action="VaciarCarrito" asp-controller="Carrito" method="post">
                         <button type="submit" class="btn btn-danger mb-3"><i class="fas fa-trash-alt"></i> Vaciar Carrito</button>
@@ -112,7 +112,7 @@ else
                                 </div>
                             }
                             <input type="hidden" name="montoTotal" value="@Model.Carrito.Total"/>
-                            <button type="submit" class="btn btn-primary btn-lg"><i class="fab fa-paypal"></i>Proceder con Compra</button>
+                            <button type="submit" class="btn btn-primary btn-lg mt-3"><i class="fab fa-paypal"></i>Proceder con Compra</button>
                         }
                         </form>
                     } 
