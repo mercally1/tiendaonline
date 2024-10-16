@@ -51,7 +51,9 @@ namespace tienda.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UsuarioId,Nombre,Telefono,NombreUsuario,Contrasenia,Correo,Direccion,Cuidad,Departamento,CodigoPostal,RolId")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind
+        ("UsuarioId,Nombre,Telefono,NombreUsuario,Contrasenia,Correo,Direccion,Cuidad,Departamento,CodigoPostal,RolId")] 
+        Usuario usuario)
         {
             var rol = await _context.Roles
                 .Where(d => d.RolId == usuario.RolId)
@@ -143,13 +145,13 @@ namespace tienda.Controllers
                         }
                     }
 
-                    existingUser.Rol = rol;
-                    existingUser.RolId = usuario.RolId;
-                    existingUser.Nombre = usuario.Nombre;
-                    existingUser.Telefono = usuario.Telefono;
-                    existingUser.NombreUsuario =usuario.NombreUsuario;
-                    existingUser.Contrasenia = usuario.Contrasenia;
-                    existingUser.Correo = usuario.Correo;
+                    // existingUser.Rol = rol;
+                    // existingUser.RolId = usuario.RolId;
+                    // existingUser.Nombre = usuario.Nombre;
+                    // existingUser.Telefono = usuario.Telefono;
+                    // existingUser.NombreUsuario =usuario.NombreUsuario;
+                    // existingUser.Contrasenia = usuario.Contrasenia;
+                    // existingUser.Correo = usuario.Correo;
 
                     try
                     {

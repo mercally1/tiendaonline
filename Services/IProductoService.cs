@@ -9,6 +9,6 @@ public interface IProductoService
 
     Task <List<Producto>> GetProductoDestacados();
 
-    Task<ProductosPaginadosViewModel> GetProductosPaginados( int? categoriaId, string? busqueda, int pagijna, int Productos);
+    Task<ProductosPaginadosViewModel> GetProductosPaginados( int? categoriaId, string? busqueda, int pagina, int productosPorPagina);
 
 }

@@ -4,12 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="text-center">
+    <h1 class="mb-3">CATEGORIAS</h1>
+    <p>
+        <a asp-action="Create" class="btn btn-outline-primary">Create New</a>
+        <a asp-controller="Dashboard" asp-action="Index" class="btn btn-secondary">Main Principal</a>
+    </p>
+</div>
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-primary">Create New</a>
-    <a asp-controller="Dashboard" asp-action="Index" class="btn btn-secondary">Main Principal</a>
-</p>
 <table class="table">
     <thead>
         <tr>

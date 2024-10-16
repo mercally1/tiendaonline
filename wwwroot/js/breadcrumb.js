@@ -4,7 +4,8 @@ function updateBreadcrumb(){
     breadcrumbContainer.innerHTML= "";
     breadcrumbContainer.innerHTML+=`<li class = "breadcrumb-item"><a href="/">Home</a></li>`;
 
-    if (controllerName !== "Home"){
+    if (controllerName !== "Home")
+    {
         breadcrumbContainer.innerHTML+=
         `<li class="breadcrumb-item"><a href"/${controllerName}">${controllerName}</a></li>`;
     }

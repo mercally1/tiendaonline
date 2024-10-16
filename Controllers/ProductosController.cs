@@ -51,13 +51,22 @@ namespace tienda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProductoId,Codigo,Nombre,Modelo,Descripcion,Precio,Imagen,CategoriaId,Stock,Marca,Activo")] Producto producto)
         {
-            if (ModelState.IsValid)
+            var cat = await _context.Categorias.Where(c=>c.CategoriaId ==producto.CategoriaId).FirstOrDefaultAsync();
+
+            if (cat != null)
             {
+                producto.Categoria = cat;
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Descripcion", producto.ProductoId);
+
+            ViewData["CategoriaId"] = new SelectList(
+                _context.Categorias,
+                "CategoriaId",
+                "Nombre",
+                producto.CategoriaId
+            );
             return View(producto);
         }
 
@@ -90,8 +99,11 @@ namespace tienda.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var cat = await _context.Categorias.Where(c => c.CategoriaId == producto.CategoriaId).FirstOrDefaultAsync();
+
+            if (cat != null)
             {
+                producto.Categoria = cat;
                 try
                 {
                     _context.Update(producto);
@@ -99,7 +111,7 @@ namespace tienda.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductoExists(producto.ProductoId))
+                    if(!ProductoExists(producto.ProductoId))
                     {
                         return NotFound();
                     }
@@ -110,6 +122,7 @@ namespace tienda.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["ProductoId"] = new SelectList(_context.Categorias, "CategoriaId", "Descripcion", producto.ProductoId);
             return View(producto);
         }
@@ -129,7 +142,6 @@ namespace tienda.Controllers
             {
                 return NotFound();
             }
-
             return View(producto);
         }
 

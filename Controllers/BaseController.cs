@@ -26,7 +26,7 @@ public class BaseController : Controller
 
     protected int GetCarritoCount()
     {
-        int Count = 0;
+        int count = 0;
 
         string? carritoJson= Request.Cookies["carrito"];
         if (!string.IsNullOrEmpty(carritoJson))
@@ -34,11 +34,10 @@ public class BaseController : Controller
             var carrito = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
             if (carrito != null)
             {
-                Count = carrito.Count;
+                count = carrito.Count;
             }
         }
-
-        return Count;
+        return count;
     }
 
     public async Task<CarritoViewModel> AgregarProductoAlCarrito(int productoId, int cantidad)
@@ -49,13 +48,14 @@ public class BaseController : Controller
         {
             var carritoViewModel = await GetCarritoViewModelAsync();
 
-            var carritoItem = carritoViewModel.Item.FirstOrDefault
+            var carritoItem = carritoViewModel.Items.FirstOrDefault
                 (item => item.ProductoId == productoId);
 
             if (carritoItem != null)
                 carritoItem.Cantidad += cantidad;
             else
-                carritoViewModel.Item.Add(
+            {
+                carritoViewModel.Items.Add(
                     new CarritoItemViewModel
                     {
                         ProductoId = producto.ProductoId,
@@ -63,23 +63,21 @@ public class BaseController : Controller
                         Precio = producto.Precio,
                         Cantidad = cantidad
                     }
-                );
-
-            carritoViewModel.Total = carritoViewModel.Item.Sum(
+                ); 
+            }
+            carritoViewModel.Total = carritoViewModel.Items.Sum(
                 item => item.Cantidad * item.Precio
             );
-
             await UpdateCarritoViewModelAsync(carritoViewModel);
 
             return carritoViewModel;
         }
-
         return new CarritoViewModel();
     }
 
     public async Task UpdateCarritoViewModelAsync(CarritoViewModel carritoViewModel)
     {
-        var productoIds = carritoViewModel.Item.Select(
+        var productoIds = carritoViewModel.Items.Select(
             item => new ProductoIdAndCantidad
             {
                 ProductoId = item.ProductoId,
@@ -100,22 +98,21 @@ public class BaseController : Controller
         var carritoJson = Request.Cookies["carrito"];
 
         if(string.IsNullOrEmpty(carritoJson))
-            
             return new CarritoViewModel();
 
-        var ProductoIdAndCantidad = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
+        var productoIdsAndCantidades = JsonConvert.DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson);
 
         var carritoViewModel = new CarritoViewModel();
 
-        if(ProductoIdAndCantidad != null){
+        if(productoIdsAndCantidades != null){
 
-            foreach(var item in ProductoIdAndCantidad)
+            foreach(var item in productoIdsAndCantidades)
             {
                 var producto = await _context.Productos.FindAsync(item.ProductoId);
 
                 if(producto != null)
                 {
-                    carritoViewModel.Item.Add(
+                    carritoViewModel.Items.Add(
                         new CarritoItemViewModel
                         {
                             ProductoId = producto.ProductoId,
@@ -127,9 +124,9 @@ public class BaseController : Controller
                 }
             }
         }
-        carritoViewModel.Total = carritoViewModel.Item.Sum(item => item.Subtotal);
+        carritoViewModel.Total = carritoViewModel.Items.Sum(item => item.Subtotal);
 
-        return new CarritoViewModel();
+        return carritoViewModel;
     }
 
     protected IActionResult HandleError(Exception e)
@@ -147,7 +144,6 @@ public class BaseController : Controller
             ErrorMessage = "Error de la base de Datos",
             Details = dbException.Message
         };
-
         return View("DbError", ViewModel);
     }
 
@@ -157,7 +153,6 @@ public class BaseController : Controller
             ErrorMessage = "!Hubo un error de actualización en la base de Datos",
             Details = dbUpdateException.Message
         };
-
         return View("DbError", ViewModel);
      }
 }

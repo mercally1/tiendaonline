@@ -4,12 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
+<div class="text-center">
+<h1 mb-3>PRODUCTOS</h1>
 <p>
     <a asp-action="Create" class="btn btn-outline-primary">Create New</a>
     <a asp-controller="Dashboard" asp-action="Index" class="btn btn-secondary">Main Principal</a>
 </p>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -33,9 +35,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CategoriaId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Categoria)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Stock)
@@ -74,9 +73,6 @@
                 @Html.DisplayFor(modelItem => item.CategoriaId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Categoria.Descripcion)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Stock)
             </td>
             <td>
@@ -94,3 +90,4 @@
 }
     </tbody>
 </table>
+
