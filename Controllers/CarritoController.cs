@@ -44,7 +44,7 @@ namespace tienda.Controllers
             var usuarioId = User.Identity?.IsAuthenticated == true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)):0;
             
             var direcciones = User.Identity?.IsAuthenticated == true ? 
-                _context.Direcciones.Where(d => d.UsuarioId == usuarioId).ToList() : new List<Direccion>();
+                _context.Direcciones.Where(d => d.UsuarioId == usuarioId). ToList() : new List<Direccion>();
 
             var procederConCompraViewModel = new ProcederConCompraViewModel
             {
@@ -55,7 +55,7 @@ namespace tienda.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ActualizarCantidad(int id, int cantidad)
+        public async Task<IActionResult> ActualizarCantidad(int id, int cantidad)
         {
             var carritoViewModel = await GetCarritoViewModelAsync();
             var carritoItem = carritoViewModel.Items.FirstOrDefault(d => d.ProductoId == id);
@@ -65,7 +65,7 @@ namespace tienda.Controllers
                 carritoItem.Cantidad = cantidad;
                 var producto = await _context.Productos.FindAsync(id);
                 if (producto != null && producto.Activo && producto.Stock > 0)
-                    carritoItem.Cantidad = Math.Min(cantidad,producto.Stock);
+                    carritoItem.Cantidad = Math.Min(cantidad, producto.Stock);
 
                 await UpdateCarritoViewModelAsync(carritoViewModel);
             }

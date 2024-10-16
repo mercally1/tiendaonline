@@ -72,49 +72,54 @@ else{
             </tfoot>
         </table>
     </div>
+         
+         <div class="alert alert-info col-lg-6 col-md-10 text-center">
+            <div class="row">
+                <div class="col-lg-6 col-md-5 mt-5 mt-2">
+                        @* botton vaciar carrito *@
+                    <form asp-action="VaciarCarrito" asp-controller="Carrito" method="post">
+                        <button type="submit" class="btn btn-danger mb-3"><i class="fas fa-trash-alt"></i> Vaciar Carrito</button>
+                    </form>
 
-    <div class="alert alert-info col-lg-5 text-center">
-        @* botton vaciar carrito *@
-        <form asp-action="VaciarCarrito" asp-controller="Carrito" method="post">
-            <button type="submit" class="btn btn-danger mb-3"><i class="fas fa-trash-alt"></i>Vaciar Carrito</button>
-        </form>
+                    @* botton segir comprando *@
+                    <a href="/Home" class="btn btn-primary">Seguir Comprando</a>
+                </div>
 
-        @* botton segir comprando *@
-        <a href="/Home" class="btn btn-primary mb-3">Seguir Comprando</a>
-
-        @* botton inicio de sesion *@
-        <div class="text-left">
-            @if(User.Identity !=null && User.Identity.IsAuthenticated)
-            {
-            <form asp-controller="Carrito" asp-action="ProcederConCompra" method="post">
-            <h3>Direcciones de envio</h3>
-            @if(Model.Direcciones.Count == 0)
-            {
-                <p>No se encontraron direcciones de envio para el usuario. Acceda a su perfil para agregar una direccion.</p>
-            } 
-            else 
-            {
-                @foreach (var direccion in Model.Direcciones)
-                {
-                    <div class="form-check">
-                        <input type="radio" name="direccionIdSeleccionada" 
-                            class="form-check-input" value="@direccion.DireccionId" 
-                            id="@direccion.DireccionId" for="@direccion.DireccionId" 
-                            required/>
-                        <label class="form-check-label" for="@direccion.DireccionId">
-                            @direccion.Address, @direccion.Cuidad, @direccion.Departamento, @direccion.CodigoPostal
-                        </label>
-                    </div>
-                }
-                <input type="hidden" name="montoTotal" value="@Model.Carrito.Total"/>
-                <button type="submit" class="btn btn-primary btn-lg"><i class="fab fa-paypal"></i>Proceder con Compra</button>
-            }
-            </form>
-        } 
-        else 
-        { 
-            <a class="btn btn-primary" asp-action="Login" asp-controller="Account">Iniciar Sesion para proceder con la compra.</a>
-        }
+                @* Seleccion de direccones para realizar las compra *@
+                <div class=" col-lg-6 col-md-5">
+                        @* botton inicio de sesion *@
+                        @if(User.Identity !=null && User.Identity.IsAuthenticated)
+                        {
+                        <form asp-controller="Carrito" asp-action="ProcederConCompra" method="post">
+                        <h3>Direcciones de envio</h3>
+                        @if(Model.Direcciones.Count == 0)
+                        {
+                            <p>No se encontraron direcciones de envio para el usuario. Acceda a su perfil para agregar una direccion.</p>
+                        } 
+                        else 
+                        {
+                            @foreach (var direccion in Model.Direcciones)
+                            {
+                                <div class="form-check ">
+                                    <input type="radio" name="direccionIdSeleccionada" 
+                                        class="form-check-input" value="@direccion.DireccionId" 
+                                        id="@direccion.DireccionId" for="@direccion.DireccionId" 
+                                        required/>
+                                    <label class="form-check-label" for="@direccion.DireccionId">
+                                        @direccion.Address, @direccion.Cuidad, @direccion.Departamento, @direccion.CodigoPostal
+                                    </label>
+                                </div>
+                            }
+                            <input type="hidden" name="montoTotal" value="@Model.Carrito.Total"/>
+                            <button type="submit" class="btn btn-primary btn-lg"><i class="fab fa-paypal"></i>Proceder con Compra</button>
+                        }
+                        </form>
+                    } 
+                    else 
+                    { 
+                        <a class="btn btn-primary mt-4" asp-action="Login" asp-controller="Account">Iniciar Sesion para proceder con la compra.</a>
+                    }   
+                </div> 
+            </div>
         </div>
-    </div>
 }
