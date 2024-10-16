@@ -12,7 +12,8 @@
         <a href="/Home" class="btn btn-primary">Seguir Comprando</a>
     </div>
 }
-else{
+else
+{
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead>
@@ -41,7 +42,7 @@ else{
                         } 
                         else
                         {
-                            <form asp-action="ActualiazarCantidad" asp-controller="Carrito" method="post">
+                            <form asp-action="ActualizarCantidad" asp-controller="Carrito" method="post">
                                 <div class="input-group input-group-sm">
                                     <input type="number" name="cantidad" class="form-control"  value="@item.Cantidad" min="1" max="@item.Producto.Stock"/>
                                     <div class="input-group-append">
