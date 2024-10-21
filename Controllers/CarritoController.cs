@@ -30,16 +30,14 @@ namespace tienda.Controllers
                     item.Producto = producto;
 
                     if(!producto.Activo)
-                        item.Cantidad = 0;
+                        carritoViewModel.Items.Remove(item);
                     else
                         item.Cantidad = Math.Min(item.Cantidad, producto.Stock);
-                    
-                    if(item.Cantidad == 0)
-                        item.Cantidad = 1;
                 }
                 else 
-                item.Cantidad = 0;
+                    item.Cantidad = 0;
             }
+            carritoViewModel.Total = carritoViewModel.Items.Sum(item => item.Subtotal);
 
             var usuarioId = User.Identity?.IsAuthenticated == true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)):0;
             
@@ -73,7 +71,7 @@ namespace tienda.Controllers
         }
 
         [HttpPost]
-         public async Task<ActionResult> EliminarProducto(int id, int cantidad)
+         public async Task<IActionResult> EliminarProducto(int id, int cantidad)
         {
             var carritoViewModel = await GetCarritoViewModelAsync();
             var carritoItem = carritoViewModel.Items.FirstOrDefault(d => d.ProductoId == id);
@@ -88,7 +86,7 @@ namespace tienda.Controllers
         }
 
         [HttpPost] 
-        public async Task<ActionResult> VaciarCarrito()
+        public async Task<IActionResult> VaciarCarrito()
         {
             await RemoveCarritoViewModelAsync();
             return RedirectToAction("Index");
@@ -111,19 +109,18 @@ namespace tienda.Controllers
                     ("direccionseleccionada", direccionIdSeleccionada.ToString(),
                     new CookieOptions {Expires = DateTimeOffset.Now.AddDays(1)});
             }else
-            
-            return View("Index");
+                return View("Index");
 
             var request = new OrdersCreateRequest();
             request.Prefer("return=representation");
             request.RequestBody(BuildRequestBody(montoTotal));
 
             var environment = new SandboxEnvironment(clienteId, clienteSecret);
-            var cliente =new PayPalHttpClient(environment);
+            var client =new PayPalHttpClient(environment);
 
             try
             {
-                var response = cliente.Execute(request).Result;
+                var response = client.Execute(request).Result;
                 var statusCode = response.StatusCode;
                 var responseBody = response.Result<Order>();
 
@@ -131,15 +128,13 @@ namespace tienda.Controllers
                 if(approveLink!=null)
                 return Redirect(approveLink.Href);
                 else
-                   return RedirectToAction("Error"); 
-
+                   return RedirectToAction("Error");
             }
             catch (HttpException e)
             {
                 return (IActionResult)e;
             }
         }
-
 
         //metodo para proceder con la compra
         private OrderRequest BuildRequestBody(decimal montoTotal)
@@ -180,8 +175,8 @@ namespace tienda.Controllers
                 {
                     direccionId = parseValue;
                 }
-                List<ProductoIdAndCantidad>? productoIdAndCantidads = !string.IsNullOrEmpty(carritoJson)? JsonConvert.
-                DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson): null;
+                List<ProductoIdAndCantidad>? productoIdAndCantidads = !string.IsNullOrEmpty(carritoJson)? JsonConvert
+                .DeserializeObject<List<ProductoIdAndCantidad>>(carritoJson): null;
 
                 CarritoViewModel carritoViewModel = new();
 
@@ -200,14 +195,13 @@ namespace tienda.Controllers
                                     Nombre = producto.Nombre,
                                     Precio = producto.Precio,
                                     Cantidad = item.Cantidad
-
                                 }
                             );
                         }
                     }
                 }
 
-                var usuarioId = User.Identity?.IsAuthenticated== true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
+                var usuarioId = User.Identity?.IsAuthenticated == true ? int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) : 0;
 
                 carritoViewModel.Total = carritoViewModel.Items.Sum(i => i.Subtotal);
 
