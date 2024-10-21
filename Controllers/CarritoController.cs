@@ -97,9 +97,9 @@ namespace tienda.Controllers
             await Task.Run(() => Response.Cookies.Delete("carrito"));
         }
 
-        private readonly string clienteId = "";
+        private readonly string clientId = "AVbZAmr64zdhsb3Icd9ieRAigEgVjKnWzpUKgV6g5OLutTrJXl_htSCqiigB4dOAcYd8UH85oVzDymK0";
 
-        private readonly string clienteSecret = "";
+        private readonly string clientSecret = "EF0NZERvtd2dR3jc9wiMNx8NCM7DwqY8YamON8gSoRaLoXm1RiHPiGbB7s2gySxDb2tSR17C_sEzsapx";
 
         public IActionResult ProcederConCompra(decimal montoTotal, int direccionIdSeleccionada)
         {
@@ -108,14 +108,15 @@ namespace tienda.Controllers
                 Response.Cookies.Append
                     ("direccionseleccionada", direccionIdSeleccionada.ToString(),
                     new CookieOptions {Expires = DateTimeOffset.Now.AddDays(1)});
-            }else
+            }
+            else
                 return View("Index");
 
             var request = new OrdersCreateRequest();
             request.Prefer("return=representation");
             request.RequestBody(BuildRequestBody(montoTotal));
 
-            var environment = new SandboxEnvironment(clienteId, clienteSecret);
+            var environment = new SandboxEnvironment(clientId, clientSecret);
             var client =new PayPalHttpClient(environment);
 
             try
@@ -156,8 +157,8 @@ namespace tienda.Controllers
                 },
                 ApplicationContext = new ApplicationContext()
                 {
-                    ReturnUrl=$"{baseUrl} /Carrito/PagoCompletado",
-                    CancelUrl=$"{baseUrl} /Carrito/Index"
+                    ReturnUrl=$"{baseUrl}/Carrito/PagoCompletado",
+                    CancelUrl=$"{baseUrl}/Carrito/Index"
                 }
             };
             return request;
